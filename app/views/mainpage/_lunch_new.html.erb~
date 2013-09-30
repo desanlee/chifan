@@ -1,0 +1,19 @@
+<div>
+	
+	<%= form_tag :controller => "lunchs"  do %>
+	
+		<% @allusers.each do |user| %>
+			<%= check_box_tag 'user[]', user.id %>
+			<%=user.email %>
+		<% end %>
+		
+		<br><br>
+		<div>
+			消费总金额：<%= text_field_tag :expense %>
+		</div>  
+		
+		<%= submit_tag "提交", class: "btn btn-primary" %>
+	  
+	<% end %>
+
+</div>

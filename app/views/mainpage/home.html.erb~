@@ -1,0 +1,18 @@
+<aside class="titlecontainer span8">
+	<div class="maintitle"><h3>今日饭局</h3><hr></div>
+	<%= render 'mainpage/lunch_list' %>
+	
+	<div class="maintitle"><h3>创建饭局</h3><hr></div>
+	<%= render 'mainpage/lunch_new' %>
+</aside>
+
+<div class="titlecontainer span3">
+	<div class="maintitle "><h3>我的饭局</h3><hr></div>
+	<%= render 'mainpage/lunch_my' %>
+	
+	<div class="maintitle "><h3>我的余额</h3><hr></div>
+	
+	<div class="maintitle "><h3>我的花费</h3><hr></div>
+	
+</div>
+

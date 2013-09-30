@@ -1,0 +1,10 @@
+<div>
+
+<% if @mylunch.count != 0 then %>
+	一共参加了<%= @mylunch.count %>个饭局
+<% else %>
+<h2>没参加任何饭局</h2>
+<% end %>
+
+<br><br>
+<div>

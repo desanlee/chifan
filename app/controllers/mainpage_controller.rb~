@@ -1,0 +1,11 @@
+class MainpageController < ApplicationController
+	def home
+		@allusers = User.find(:all)
+		@alllunchs = Lunch.find(:all)
+		@mylunch = Lunch.find(:all)
+		if @alllunchs then
+			@latestlunch = @alllunchs.first
+		end
+	end
+	
+end

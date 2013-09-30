@@ -1,0 +1,17 @@
+<div class = "row">
+<% if @alllunchs.count != 0 then %>
+	<div class="span6 offset1">
+	<%= @alllunchs.last.users.count %> 个饭桶参加了饭局。共消费<%= @alllunchs.last.expense %> 元。
+	每人<%= @alllunchs.last.expense / @alllunchs.last.users.count %>元。<br><br>
+	参加者：<br><br>
+	</div>
+	<div class="span6 offset1">
+	<% @alllunchs.last.users.each do |u| %>
+		<div class ="label label-success span"><%= u.email %></div>
+	<% end %>
+	</div>
+	
+<% else %>
+<h2>啥饭局也没有呢</h2>
+<% end %>
+</div>

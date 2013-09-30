@@ -1,0 +1,18 @@
+<div>
+
+	<% if @mylunch.count != 0 then %>
+	
+		<% @mylunch.each do |ml| %>
+			<li><%= time_ago_in_words(ml.created_at)%> ago，花费<%= ml.expense / ml.users.count %>元</li>
+			<% if current_user.email == "desanlee@gmail.com" then%>
+				<span class="plandate"><%= link_to "删除", ml, method: :delete, data: { confirm: "确定删除?" } %></span>
+			<% end %>
+		<% end %>
+	<% else %>
+	
+	<h2>没参加任何饭局</h2>
+	<% end %>
+	
+	
+	<br><br>
+<div>

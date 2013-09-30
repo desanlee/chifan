@@ -1,0 +1,3 @@
+class Attrelationship < ActiveRecord::Base
+  attr_accessible :lunch_id, :user_id
+end
