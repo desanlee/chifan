@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205121115) do
+ActiveRecord::Schema.define(:version => 20140324051402) do
 
   create_table "attrelationships", :force => true do |t|
     t.integer  "lunch_id"
@@ -20,12 +20,35 @@ ActiveRecord::Schema.define(:version => 20121205121115) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "fangroups", :force => true do |t|
+    t.string   "nickname"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "followrelationships", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "fangroup_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "incharges", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "fangroup_id"
+    t.integer  "amount"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "lunches", :force => true do |t|
     t.string   "title"
     t.integer  "expense"
     t.string   "note"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "fangroup_id"
   end
 
   create_table "users", :force => true do |t|
@@ -42,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20121205121115) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "nickname"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

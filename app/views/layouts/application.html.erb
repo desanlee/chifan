@@ -13,7 +13,7 @@
     <header class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <%= link_to "Oracle NSG SQE - 吃饭！", '#', id: "logo" %>
+          <%= link_to "Oracle - 吃饭！", '#', id: "logo" %>
           <nav>
             <ul class="nav pull-right">
               <li><%= link_to "帮助",    '#' %></li>
@@ -36,6 +36,13 @@
     </div>
 
     <div class="container">
+    <ul class="nav nav-tabs" id="myTab">
+	<li class="active"><a href="lunch" data-toggle="tab">今日饭局</a></li>
+	<li><a href="fangroup" data-toggle="tab">我的饭团</a></li>
+	<li><a href="selfinfo" data-toggle="tab">个人信息</a></li>
+	<li><a href="game" data-toggle="tab">游戏(test)</a></li>
+	</ul>
+
       <%= yield %>
     </div>
 	

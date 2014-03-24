@@ -1,0 +1,2 @@
+module FangroupsHelper
+end

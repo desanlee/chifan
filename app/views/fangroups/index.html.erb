@@ -1,0 +1,12 @@
+
+<h2>当前饭团有<%= Fangroup.count %>个</h2>
+<% @fangroups.each do |fangroup| %>
+	<% @fangroup = fangroup %>
+	<%= render "showfangroup" %>
+<%end%>
+
+<hr>
+<h2>创建我的饭团</h2>
+<%=
+	render "newfangroup"
+%>

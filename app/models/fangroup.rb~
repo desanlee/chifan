@@ -1,0 +1,3 @@
+class Fangroup < ActiveRecord::Base
+  attr_accessible :nickname, :user_id
+end

@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   
   has_many :reverse_attrelationships, foreign_key: "user_id", class_name:  "Attrelationship", dependent: :destroy
-  has_many :lunchs, through: :reverse_attrelationships, source: :lunchs
+  has_many :lunchs, through: :reverse_attrelationships, source: :lunch
   
 end

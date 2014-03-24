@@ -6,10 +6,27 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :nickname
   # attr_accessible :title, :body
   
   has_many :reverse_attrelationships, foreign_key: "user_id", class_name:  "Attrelationship", dependent: :destroy
   has_many :lunchs, through: :reverse_attrelationships, source: :lunch
+  
+  has_many :followrelationships, foreign_key: "user_id", class_name: "Followrelationship", dependent: :destroy
+  has_many :fangroups, through: :followrelationships, source: :fangroup
+  
+  has_many :incharges, class_name: "Incharge", dependent: :destroy
+  
+  def chargesum
+  end
+  
+  def expensesum
+  end
+  
+  def remainsum
+  end
+  
+  def averageexpense
+  end
   
 end

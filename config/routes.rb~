@@ -10,7 +10,7 @@ Chifan::Application.routes.draw do
   root :to =>'Mainpage#home'
   
   devise_for :users
-
+  resources :users
 
   
   

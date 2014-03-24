@@ -11,6 +11,11 @@ Chifan::Application.routes.draw do
   
   devise_for :users
   resources :users
+  resources :lunches
+  resources :fangroups
+  resources :incharges
+  resources :attrelationships
+  resources :followrelationships
 
   
   

@@ -1,0 +1,3 @@
+class Followrelationship < ActiveRecord::Base
+  attr_accessible :fangroup_id, :user_id
+end

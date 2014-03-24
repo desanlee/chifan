@@ -1,17 +1,13 @@
 class MainpageController < ApplicationController
 	def home
-		@allusers = User.find(:all)
-		@alllunchs = Lunch.find(:all)
-		@mylunch = current_user.lunchs
-		@totalexpense = 0
-		if @mylunch then
-			@mylunch.each do |ml|
-				@totalexpense = @totalexpense + ml.expense / ml.users.count
-			end
+		@fangroups = current_user.fangroups
+		@currentfangroup = nil
+		if @fangroups.count != 0
+			@currentfangroup = @fangroups.first 
+			@currentlunch = @currentfangroup.todaylunch
 		end
-		if @alllunchs then
-			@latestlunch = @alllunchs.first
-		end
+		
+		@mylunches = current_user.lunchs
 	end
 	
 end

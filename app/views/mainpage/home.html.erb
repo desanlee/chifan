@@ -1,23 +1,28 @@
-<aside class="titlecontainer span8">
-	<div class="maintitle"><h3>最近饭局</h3><hr></div>
-	<%= render 'mainpage/lunch_list' %>
-	<br>
-	
-	<% if current_user.email == "desanlee@gmail.com" then %>
-	<div class="maintitle"><h3>创建饭局</h3><hr></div>
-	<%= render 'mainpage/lunch_new' %>
-	<% end %>
-</aside>
-
-<div class="titlecontainer span3">
-
-	<div class="maintitle "><h3>我的饭局</h3><hr></div>
-	<%= render 'mainpage/lunch_my' %>
-	
-	<div class="maintitle "><h3>我的余额</h3><hr></div>
-	
-	<div class="maintitle "><h3>我的花费</h3><hr></div>
-	<%= render 'mainpage/lunch_expense' %>
-	
+<!-- Tab panes -->
+<div class="tab-content">
+	<div class="tab-pane" id="lunch">
+		<% if @currentlunch == nil %>
+			<h2>请参加一个饭团先！</h2>
+		<% else %>
+			<div class="maintitle"><h2>今日饭局</h2><hr></div>
+			<%= render 'mainpage/lunch_list' %>
+		<% end %>
+	</div>
+	<div class="tab-pane active" id="fangroup">
+		<h2>饭团列表</h2>
+	</div>
+	<div class="tab-pane" id="selfinfo">
+		<h2>个人信息</h2>
+		<div class="titlecontainer span4">
+			<div class="maintitle "><h3>我的饭局</h3><hr></div>	
+			<div class="maintitle "><h3>我的余额</h3><hr></div>			
+			<div class="maintitle "><h3>我的花费</h3><hr></div>
+		</div>
+	</div>
 </div>
 
+<script>
+  $(function () {
+    $('#myTab a:first').tab('show')
+  })
+</script>
