@@ -1,3 +1,0 @@
-class Incharge < ActiveRecord::Base
-  attr_accessible :amount, :fangroup_id, :user_id
-end

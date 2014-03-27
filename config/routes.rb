@@ -7,7 +7,7 @@ Chifan::Application.routes.draw do
   get "mainpage/home"
   get "mainpage/newlunch"
 
-  root :to =>'Mainpage#home'
+  root :to =>'Lunchs#index'
   
   devise_for :users
   resources :users

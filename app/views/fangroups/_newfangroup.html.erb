@@ -1,7 +1,7 @@
 <br>
 <%= form_for(@newfangroup) do |f| %>
 	<div class="span12 center">
-		饭团名称：<%= f.text_field :nickname, :class => "newpiecefield"  %>
-		<%= f.submit %>
+		饭团名称：<%= f.text_field :nickname %>
+		<%= f.submit "创建", class: "btn" %>
 	</div>
  <% end %>

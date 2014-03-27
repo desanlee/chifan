@@ -1,0 +1,33 @@
+<% if @lunch != nil %>
+	<div class="span5">
+		From Group: <%= @lunch.fangroup.nickname if @lunch.fangroup != nil %>
+	</div>
+	<div class="span2">
+		People Count: <%= @lunch.participants.count %>
+	</div>
+	<div class="span2">
+		<% @attrelationship = @lunch.attrelationship current_user %>
+		<% if @attrelationship != nil %>
+			<%= link_to "退出", 
+				@attrelationship, 
+				method: :delete,
+				data: { confirm: 'Are you sure to quit?' }
+			%>
+		<% else %>
+			<%= link_to "加入", 
+				controller: :attrelationships,
+				action: :create,
+				method: :post,
+				user_id: current_user.id, 
+				lunch_id: @lunch.id 
+			%>
+		<% end %>
+	</div>
+			
+	<div class="span10">
+		<% @lunch.participants.each do |u|%>
+			<div class="label label-success span"><%= u.email%></div>
+		<% end %>
+	</div>
+	<hr>
+<% end %>

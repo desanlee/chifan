@@ -1,9 +1,0 @@
-class LunchsController < ApplicationController
-  def show
-  end
-  
-  def create
-  	  redirect_to root_url
-  end
-  
-end

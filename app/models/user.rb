@@ -29,4 +29,8 @@ class User < ActiveRecord::Base
   def averageexpense
   end
   
+  def nickname
+  	return self.email	
+	end
+  
 end

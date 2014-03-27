@@ -1,4 +1,41 @@
-<div class="span12">
-	饭团名：<%= @fangroup.nickname %>，创建人：<%= @fangroup.user.email if  @fangroup.user != nil %>
+<div class="row">
+
+	<table class="table container"><tr>
+		<td>
+			<div class="span7">饭团：<%= @fangroup.nickname %></div>
+
+			<div class="span3">团长：<%= @fangroup.user.email if  @fangroup.user != nil %></div>
+
+			<div class="span2">
+				<% @followrelationship = @fangroup.followrelationship current_user %>
+				<% if @followrelationship != nil %>
+					<%= link_to "退出", 
+						@followrelationship, 
+						method: :delete,
+						data: { confirm: 'Are you sure to quit?' }
+					%>
+				<% else %>
+					<%= link_to "加入", 
+						controller: :followrelationships,
+						action: :create,
+						method: :post,
+						user_id: current_user.id, 
+						fangroup_id: @fangroup.id 
+					%>
+				<% end %>
+				<% if @fangroup.user_id == current_user.id %>
+					<%= link_to 'x', @fangroup, method: :delete, data: { confirm: 'Are you sure to destroy?' } %>
+				<% end %>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<% @fangroup.users.each do |u|%>
+				<div class="label label-success span2"><%= u.email %></div>
+			<% end %>
+		</td>
+	</tr></table>
+	
 </div>
 

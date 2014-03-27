@@ -6,4 +6,13 @@ class Lunch < ActiveRecord::Base
   
   belongs_to :fangroup, class_name: "Fangroup" 
   
+  def today?
+  	return true
+	end
+  
+  def attrelationship user
+  	fr = Attrelationship.find_by_user_id_and_lunch_id(user.id, self.id)
+  	return fr
+  end
+  
 end

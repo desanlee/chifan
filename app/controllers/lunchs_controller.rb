@@ -1,4 +1,14 @@
 class LunchsController < ApplicationController
+
+	def index
+		@fangroups = current_user.fangroups
+		@lunches = Array.new
+		@fangroups.each do |fg|
+			@lunches << fg.todaylunch
+		end
+		
+	end
+	
 	def show
 	end
   

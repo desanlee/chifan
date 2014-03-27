@@ -1,0 +1,7 @@
+<h1>今日饭局</h1>
+<% @lunches.each do |l| %>
+	<% @lunch = l %>
+	<div class="span10">
+		<%= render "showlunch" %>
+	</div>
+<% end %>

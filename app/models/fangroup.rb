@@ -13,14 +13,26 @@ class Fangroup < ActiveRecord::Base
   end
   
   def todaylunch
-  	  if !self.lunches.latest.today? then
-  	  	  newlunch = new Lunch
+  	if self.lunches.count != 0 then
+  	  if !self.lunches.last.today? then
+  	  	  newlunch = Lunch.new
   	  	  newlunch.fangroup_id = self.id
   	  	  newlunch.save
   	  	  return newlunch
   	  else
-  	  	  return self.lunches.latest
+  	  	  return self.lunches.last
   	  end
+  	else
+  		newlunch = Lunch.new
+  	 	newlunch.fangroup_id = self.id
+  	 	newlunch.save
+  	  return newlunch
+  	end
+  end
+  
+  def followrelationship user
+  	fr = Followrelationship.find_by_user_id_and_fangroup_id(user.id, self.id)
+  	return fr
   end
   
 end
