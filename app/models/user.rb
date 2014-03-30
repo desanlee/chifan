@@ -17,20 +17,48 @@ class User < ActiveRecord::Base
   
   has_many :incharges, class_name: "Incharge", dependent: :destroy
   
-  def chargesum
+  def name
+		if self.nickname == nil or self.nickname == ""
+			return self.email
+		else
+			return self.nickname 
+		end
   end
-  
-  def expensesum
-  end
-  
-  def remainsum
-  end
-  
-  def averageexpense
-  end
-  
-  def nickname
-  	return self.email	
+	
+	def inchargeamount fangroup
+		amount = 0
+		self.confirmedcharges.each do |c|
+			amount += c.amount if c.fangroup == fangroup
+		end
+		return amount
+	end
+	
+	def lunchamount fangroup
+		amount = 0
+		self.confirmedlunchs.each do |l|
+			amount += l.expense if l.fangroup == fangroup
+		end
+		return amount
+	end
+	
+	def confirmedcharges
+		cc = Array.new
+		self.incharges.each do |c|
+			cc << c if c.confirmed == 1
+		end
+		return cc
 	end
   
+	def confirmedlunchs
+		cl = Array.new
+		self.lunchs.each do |l|
+			cl << l if l.checkedout?
+		end
+		return cl
+	end
+	
+	def remaining fangroup
+		return self.inchargeamount(fangroup) - self.lunchamount(fangroup) 
+	end
+	
 end

@@ -1,0 +1,8 @@
+﻿<h2>This is <%= current_user.name%>'s Profile</h2>
+
+<ul>
+	<li>从<%= current_user.created_at.to_time.strftime('%Y年%m月%d日') %>开始加入饭团</li>
+	<li>一共参加过<%= current_user.lunchs.count%>次饭局，平均每次饭局花费元</li>
+	<li>先后向饭团充值元，消费元，目前余额总计元</li>
+
+</ul>

@@ -9,8 +9,21 @@ class Fangroup < ActiveRecord::Base
   has_many :incharges, class_name: "Incharge"
   has_many :lunches, class_name: "Lunch"
   
-  def remainsum
+  def remaining
+		sum = 0;
+		self.incharges.each do |i|
+			sum += i.amount
+		end
+		return sum
   end
+	
+	def inchargeapplications
+		ia = Array.new
+		self.incharges.each do |i|
+			ia << i
+		end
+		return ia
+	end
   
   def todaylunch
   	if self.lunches.count != 0 then

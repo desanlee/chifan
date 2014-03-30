@@ -1,7 +1,11 @@
-<h1>今日饭局</h1>
-<% @lunches.each do |l| %>
-	<% @lunch = l %>
-	<div class="span10">
-		<%= render "showlunch" %>
-	</div>
-<% end %>
+<div>
+	<h2>今日饭局，<%= Time.now.strftime('%Y-%m-%d') %></h2><br>
+	<table class="table">
+		<% @lunches.each do |l| %>
+			<% @lunch = l %>
+			<div class="span10">
+				<%= render "showlunch" %>
+			</div>
+		<% end %>
+	</table>
+</div>

@@ -1,7 +1,9 @@
 class LunchsController < ApplicationController
 
 	def index
+		session[:tab] = "lunchs"
 		@fangroups = current_user.fangroups
+		@attrelationship = Attrelationship.new
 		@lunches = Array.new
 		@fangroups.each do |fg|
 			@lunches << fg.todaylunch
@@ -28,6 +30,16 @@ class LunchsController < ApplicationController
 		
 		redirect_to root_url
 	end
+	
+  def update
+    @lunch = Lunch.find(params[:id])
+
+    respond_to do |format|
+      if @lunch.update_attributes(params[:lunch])
+        format.html { redirect_to :back, notice: 'Infopiece was successfully updated.' }
+      end
+    end
+  end
 	
   def destroy
   	  @lunch = Lunch.find(params[:id])

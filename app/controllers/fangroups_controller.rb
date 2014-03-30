@@ -1,6 +1,7 @@
 class FangroupsController < ApplicationController
 	
 	def index
+		session[:tab] = "fangroups"
 		@fangroups = Fangroup.all
 		@newfangroup = Fangroup.new
 		
@@ -8,7 +9,7 @@ class FangroupsController < ApplicationController
 
 	def create
 		@fangroup = Fangroup.new(params[:fangroup])
-		if @fangroup.nickname = ""
+		if @fangroup.nickname == ""
 			@fangroup.nickname = current_user.nickname + "'s group"
 		end
 		@fangroup.user_id = current_user.id

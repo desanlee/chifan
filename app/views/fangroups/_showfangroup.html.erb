@@ -1,41 +1,50 @@
-<div class="row">
-
-	<table class="table container"><tr>
-		<td>
-			<div class="span7">饭团：<%= @fangroup.nickname %></div>
-
-			<div class="span3">团长：<%= @fangroup.user.email if  @fangroup.user != nil %></div>
-
-			<div class="span2">
-				<% @followrelationship = @fangroup.followrelationship current_user %>
-				<% if @followrelationship != nil %>
-					<%= link_to "退出", 
-						@followrelationship, 
-						method: :delete,
-						data: { confirm: 'Are you sure to quit?' }
-					%>
-				<% else %>
-					<%= link_to "加入", 
-						controller: :followrelationships,
-						action: :create,
-						method: :post,
-						user_id: current_user.id, 
-						fangroup_id: @fangroup.id 
-					%>
-				<% end %>
-				<% if @fangroup.user_id == current_user.id %>
-					<%= link_to 'x', @fangroup, method: :delete, data: { confirm: 'Are you sure to destroy?' } %>
-				<% end %>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<% @fangroup.users.each do |u|%>
-				<div class="label label-success span2"><%= u.email %></div>
+<tr>
+	<td width="30%">
+		<h3><%= @fangroup.nickname %> </h3><br>
+		<% if @fangroup.inchargeapplications.count > -1 and @fangroup.user_id == current_user.id%>
+			充值申请：<%= @fangroup.inchargeapplications.count %>个<br>
+		<% end %>
+		值班团长：<%= @fangroup.user.name if  @fangroup.user != nil %><br>
+		资金：<%= @fangroup.remaining %>元，团员：<%= @fangroup.users.count %>人
+	</td>
+	<td width="50%">
+		<% @fangroup.users.each do |u|%>
+			<div class="label label-success span margin_mini"><%= u.email %></div>
+		<% end %>
+	</td>
+	<td width="20%">
+			<% @followrelationship = @fangroup.followrelationship current_user %>
+			<% if @followrelationship != nil %>
+				我有余额：<%= current_user.remaining @fangroup %>元<br><hr>
+				<%= link_to "充值", "#", class: "btn btn-primary" %><br>
+				<%= link_to "退团", 
+					@followrelationship, 
+					method: :delete,
+					data: { confirm: 'Are you sure to quit?' },
+					class: "btn btn-mini"
+				%>
+			<% else %>
+				<%= link_to "入团", 
+					{controller: :followrelationships,
+					action: :create,
+					method: :post,
+					user_id: current_user.id, 
+					fangroup_id: @fangroup.id},
+					class: "btn btn-primary btn-success"
+				%><br>
 			<% end %>
+			<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
+				<%= link_to '删团', 
+					@fangroup, 
+					method: :delete, 
+					data: { confirm: 'Are you sure to destroy?' },
+					class: "btn btn-mini"
+				%><br>
+			<% end %>
+			<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
+				<%= link_to '换团长', "#", class: "btn btn-mini" %>
+			<% end %><br>
 		</td>
-	</tr></table>
-	
-</div>
+</tr>
+
 

@@ -16,6 +16,7 @@ Chifan::Application.routes.draw do
   resources :incharges
   resources :attrelationships
   resources :followrelationships
+	resources :games
 
   
   

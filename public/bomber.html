@@ -1,0 +1,222 @@
+﻿<html>
+   <head>
+      <title>Take Metro</title>
+	  <script type="text/javascript" src="./physics_game/Box2dWeb-2.1.a.3.js"></script>
+	  <script type="text/javascript" src="./physics_game/materials.js"></script>
+	  <script type="text/javascript" src="./physics_game/control.js"></script>
+	  <script type="text/javascript" src="./things/plane.js"></script>
+	  <script type="text/javascript" src="./things/tank.js"></script>
+	  <script type="text/javascript" src="./things/furniture.js"></script>
+   </head>
+   
+   <body onload="init();">
+      <center><canvas id="canvas" width="1200" height="550" style="background-color:#070B19;" ></canvas></center>
+   </body>
+   
+   <script type="text/javascript">
+	function ss(event){
+		var key = window.event ? event.keyCode:event.which;
+		if(key == 50) {
+			window.location.reload();
+			pause = false;
+		}
+		if(key == 49) {
+			pause = false;
+		}
+	} 
+	document.onkeydown=ss;
+
+
+var wwidth = 1200; var wheight = 550;
+var scale = 10;
+var canvas = document.getElementById('canvas');
+var ctx=canvas.getContext("2d");
+ctx.font="20px Georgia";
+ctx.fillStyle="white"
+
+var ctxstr="COOL! RIGHT ON THE BATTERY!!"
+
+var hitTarget = false;
+var outOfControl = false;
+var gamePass = false;
+var gameOver = false;
+var finished = false;
+var pause = true;
+var duration
+
+function init() {
+
+	time1=new Date()
+
+    var world = new b2World(
+        new b2Vec2(0, 5)    //gravity
+        ,  true                 //allow sleep
+    );
+	var worldSize = new b2Vec2(wwidth, wheight);
+	
+ 
+    //create ground
+    fixDef.shape = new b2PolygonShape;
+	//define horizon
+    fixDef.shape.SetAsBox(worldSize.x / scale, 0.1);
+	bodyDef.position.Set(0, worldSize.y / scale);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	bodyDef.position.Set(0, 0);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	//define vertical
+	/*
+    fixDef.shape.SetAsBox(0.5, worldSize.y / scale);
+	bodyDef.position.Set(0, 0);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	bodyDef.position.Set(worldSize.x / scale, 0);
+	world.CreateBody(bodyDef).CreateFixture(fixDef);
+	*/
+	//////////////////////////////////////////////////////////
+	
+	var stuka = CreatePlane(world)
+	InitPlane(world, stuka, new b2Vec2(-4, 10))
+	
+	CreateBasket(world, new b2Vec2(58, 51))
+	CreateBasket(world, new b2Vec2(58, 53))
+	CreateBasket(world, new b2Vec2(58, 54))
+	
+	CreateTank(world, new b2Vec2(50, 54.5))
+	CreateTank(world, new b2Vec2(100, 54.5))
+	
+	CreateBasket(world, new b2Vec2(15, 54.5))
+	CreateBasket(world, new b2Vec2(15, 53))
+	
+	CreateBasket(world, new b2Vec2(89, 52.5))
+	CreateBasket(world, new b2Vec2(90, 54.5))
+	
+	//////////////////////////////////////////////////////////
+    //setup debug draw
+    var debugDraw = new b2DebugDraw();
+	debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+	debugDraw.SetDrawScale(scale);
+	debugDraw.SetFillAlpha(0.5);
+	debugDraw.SetLineThickness(1);
+	//debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+	//debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+	world.SetDebugDraw(debugDraw);
+    
+	//////////////////////////////////////////////////////////
+	// setup contacts
+	var contactListener = new Box2D.Dynamics.b2ContactListener;
+    contactListener.BeginContact = beginContact;
+    world.SetContactListener(contactListener);
+	
+	window.setInterval(update, 1000 / 60);
+
+	function beginContact(contact){
+		if(contact.GetFixtureA().GetBody().GetUserData()) {
+			if(contact.GetFixtureA().GetBody().GetUserData().id == "bomb" ){
+				if(contact.GetFixtureB().GetBody().GetUserData().id == "t34") {
+					hitTarget = true;
+					contact.GetFixtureB().GetBody().SetUserData(document.getElementById("b-t34"))
+				}
+			}
+			if(contact.GetFixtureA().GetBody().GetUserData().id == "stuka" ){
+				outOfControl = true;
+			}
+		}
+		if(contact.GetFixtureB().GetBody().GetUserData()) {
+			if(contact.GetFixtureB().GetBody().GetUserData().id == "bomb" ){
+				if(contact.GetFixtureA().GetBody().GetUserData().id == "t34") {
+					hitTarget = true;
+					contact.GetFixtureA().GetBody().SetUserData(document.getElementById("b-t34"))
+				}
+			}
+			if(contact.GetFixtureB().GetBody().GetUserData().id == "stuka" ){
+				outOfControl = true;
+			}
+		}
+	}
+	
+	/////////////////////////////////////////////////////////
+    //update
+    function update() {
+		if(pause) {
+			ctx.font="50px Georgia";
+			ctx.fillText("JU-87 斯图卡 - 俯冲轰炸", 350, 130);
+			ctx.font="35px Georgia";
+			ctx.fillText("任务：携带炸弹2枚，击毁至少一辆T34坦克", 280, 200);
+			ctx.fillText("Press 1 to start", 400, 300);
+			ctx.font="20px Georgia";
+			ctx.fillText("Use LEFT/RIGHT to speed up/down", 400, 400);
+			ctx.fillText("Use UP/DOWN to lift/dive", 400, 430);
+			ctx.fillText("Hit SPACE to drop bomb", 400, 460);
+			return
+		}
+		if(finished) return;
+		if(stuka.GetPosition().x > 120) {
+			gameOver = true
+		}
+		if(gameOver) {
+			if(gamePass) {
+				time2 = new Date()
+				duration = time2.getTime() - time1.getTime()
+				ctx.font="30px Georgia";
+				ctx.fillText("USED  " + Math.floor(duration / 100) / 10 + "  SECONDS", 420, 200);
+				ctx.font="50px Georgia";
+				ctx.fillText("MISSION ACCOMPLISHED!", 400, 300);
+				ctx.font="15px Georgia";
+				ctx.fillText("Press 2 to restart", 400, 320);
+			} else {
+				ctx.font="50px Georgia";
+				ctx.fillText("MISSION FAILED!", 400, 200);
+				ctx.font="20px Georgia";
+				ctx.fillText("Press 2 to restart", 400, 220);
+			}
+			finished = true;
+			return;
+		}
+		if(!outOfControl) {
+			ControlFly(world, stuka);
+		}
+		world.Step(1 / 60, 10, 10);
+		world.DrawDebugData();
+		
+		//ctx.fillText("This world, width: " + Math.floor(worldSize.x/scale) + " M, height: "+ Math.floor(worldSize.y/scale) + " M" , 10, 50);
+		ctx.fillText("Plane PowerForce: " + powerForce + "N", 3, 80);
+		//ctx.fillText("Plane Weight: " + Math.floor(plane.GetMass() * 4) + "N", 10, 100);
+		if(hitTarget) {
+			ctx.font="30px Georgia";
+			ctx.fillText("COOL! RIGHT ON THE BATTERY", 300, 400);
+			ctx.font="20px Georgia";
+			gamePass = true;
+		}
+		if(outOfControl) {
+			ctx.font="50px Georgia";
+			ctx.fillText("SO BAD! STUKA CRASHED!", 400, 300);
+			ctx.font="20px Georgia";
+			gamePass = false;
+			gameOver = true;
+		}
+		
+		for(var b = world.m_bodyList; b != null; b = b.m_next){
+			if(b.GetUserData()){
+				ctx.save();
+				ctx.translate(b.GetPosition().x*10,b.GetPosition().y*10);
+				ctx.rotate(b.GetAngle());             
+				ctx.drawImage(b.GetUserData(),-b.GetUserData().width / 2,-b.GetUserData().height / 2);
+				ctx.restore();
+			}
+		}
+
+		world.ClearForces();
+    }
+}
+   
+</script>
+   
+<div id="assets" style="display:none">
+    <img id="stuka" src="resources/ju-87/stuka_s.png" />
+	<img id="bomb" src="resources/ju-87/bomb.png" />
+	<img id="t34" src="resources/ju-87/t34.png" />
+	<img id="b-t34" src="resources/ju-87/b-t34.png" />
+	<img id="basket" src="resources/ju-87/basket.png" />
+</div>
+				
+   
+</html>
