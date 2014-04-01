@@ -13,7 +13,7 @@
 		<% @lunch.attrelationships.each do |ar|%>
 			<div class="label label-success span margin_mini">
 				<%= ar.user.email%><br>
-				报名时间：<%= ar.created_at.to_time.strftime('%H点%M分')%>
+				报名时间：<%= (ar.created_at.to_time + 8.hours).strftime('%H点%M分')%>
 			</div>
 		<% end %>
 	</td>
@@ -29,18 +29,18 @@
 		<% end %>
 	</td>
 	<!------------------------------------------------------------>
-	<td width="8%">
+	<td width="10%">
 		<% if !@lunch.checkedout? %>
 			<% @attrelationship = @lunch.attrelationship current_user %>
 			<% if @attrelationship != nil %>
-				<%= link_to "退出", 
+				<%= link_to "不吃了", 
 					@attrelationship, 
 					method: :delete,
 					class: "btn btn-primary btn-danger",
 					data: { confirm: 'Are you sure to quit?' }
 				%>
 			<% else %>
-				<%= link_to "加入", 
+				<%= link_to "我吃！", 
 					{controller: :attrelationships,
 					user_id: current_user.id, 
 					lunch_id: @lunch.id},

@@ -26,8 +26,10 @@
 	} 
 	document.onkeydown=ss;
 
-
 var wwidth = 1200; var wheight = 550;
+var trail = new Array();
+var btrail = new Array();
+var bombs = new Array();
 var scale = 10;
 var canvas = document.getElementById('canvas');
 var ctx=canvas.getContext("2d");
@@ -74,20 +76,23 @@ function init() {
 	//////////////////////////////////////////////////////////
 	
 	var stuka = CreatePlane(world)
-	InitPlane(world, stuka, new b2Vec2(-4, 10))
+	InitPlane(world, stuka, new b2Vec2(-4, 15))
 	
-	CreateBasket(world, new b2Vec2(58, 51))
-	CreateBasket(world, new b2Vec2(58, 53))
-	CreateBasket(world, new b2Vec2(58, 54))
+	CreateBasket(world, new b2Vec2(18, 51))
+	CreateBasket(world, new b2Vec2(18, 53))
+	CreateBasket(world, new b2Vec2(18, 54))
 	
 	CreateTank(world, new b2Vec2(50, 54.5))
 	CreateTank(world, new b2Vec2(100, 54.5))
 	
-	CreateBasket(world, new b2Vec2(15, 54.5))
-	CreateBasket(world, new b2Vec2(15, 53))
+	CreateBasket(world, new b2Vec2(25, 54.5))
+	CreateBasket(world, new b2Vec2(25, 53))
 	
 	CreateBasket(world, new b2Vec2(89, 52.5))
 	CreateBasket(world, new b2Vec2(90, 54.5))
+	
+	CreateTable(world, new b2Vec2(85, 54.5))
+	CreateTable(world, new b2Vec2(50, 54.5))
 	
 	//////////////////////////////////////////////////////////
     //setup debug draw
@@ -180,6 +185,17 @@ function init() {
 		//ctx.fillText("This world, width: " + Math.floor(worldSize.x/scale) + " M, height: "+ Math.floor(worldSize.y/scale) + " M" , 10, 50);
 		ctx.fillText("Plane PowerForce: " + powerForce + "N", 3, 80);
 		//ctx.fillText("Plane Weight: " + Math.floor(plane.GetMass() * 4) + "N", 10, 100);
+		
+		for (i=0;i< btrail.length;i++) {
+			ctx.save();
+			ctx.font="20px Georgia";
+			ctx.fillText("投弹", btrail[i][0], btrail[i][1])
+			ctx.restore();
+		}
+		for (i=0;i< trail.length;i = i+10) {
+			ctx.fillText(".", trail[i][0], trail[i][1])
+		}
+		
 		if(hitTarget) {
 			ctx.font="30px Georgia";
 			ctx.fillText("COOL! RIGHT ON THE BATTERY", 300, 400);
@@ -216,6 +232,7 @@ function init() {
 	<img id="t34" src="resources/ju-87/t34.png" />
 	<img id="b-t34" src="resources/ju-87/b-t34.png" />
 	<img id="basket" src="resources/ju-87/basket.png" />
+	<img id="table" src="resources/ju-87/table.png" />
 </div>
 				
    
