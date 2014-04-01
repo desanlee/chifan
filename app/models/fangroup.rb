@@ -12,7 +12,7 @@ class Fangroup < ActiveRecord::Base
   def remaining
 		sum = 0;
 		self.incharges.each do |i|
-			sum += i.amount
+			sum += i.amount if i.confirm == 1
 		end
 		return sum
   end
@@ -20,7 +20,7 @@ class Fangroup < ActiveRecord::Base
 	def inchargeapplications
 		ia = Array.new
 		self.incharges.each do |i|
-			ia << i
+			ia << i if i.confirm != 1
 		end
 		return ia
 	end

@@ -2,8 +2,10 @@ class FangroupsController < ApplicationController
 	
 	def index
 		session[:tab] = "fangroups"
+		
 		@fangroups = Fangroup.all
 		@newfangroup = Fangroup.new
+		@incharge = Incharge.new
 		
 	end
 

@@ -1,8 +1,15 @@
-﻿<h2>This is <%= current_user.name%>'s Profile</h2>
+﻿<div class="padding_all_deep">
+<h3>用户 <%= current_user.name%> 的信息</h3><br>
 
-<ul>
-	<li>从<%= current_user.created_at.to_time.strftime('%Y年%m月%d日') %>开始加入饭团</li>
-	<li>一共参加过<%= current_user.lunchs.count%>次饭局，平均每次饭局花费元</li>
-	<li>先后向饭团充值元，消费元，目前余额总计元</li>
-
-</ul>
+	<%= form_for(current_user) do |u| %>
+		我想改昵称：	<%= u.text_field :nickname %>
+		<%= u.submit "OK", class: "btn" %>
+	<% end %>
+<br>
+	<ul>
+		<li>从<%= current_user.created_at.to_time.strftime('%Y年%m月%d日') %>开始加入饭团</li>
+		<li>当前参与<%= current_user.fangroups.count %>个团体的聚餐活动</li>
+		<li>参加过<%= current_user.lunchs.count%>次饭局</li>
+		<li>一共充值<%= current_user.incharges.count%>次</li>
+	</ul>
+</div>

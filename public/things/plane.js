@@ -44,6 +44,7 @@ function ControlFly(world, plane){
 	mscenter = new b2Vec2;
 	mscenter.SetV(plane.GetWorldCenter());
 	
+	trail.push([position.x * scale, position.y * scale]);
 //--------------------------
 // control plane angle
 //--------------------------
@@ -133,6 +134,7 @@ function DropBomb(world, plane) {
 	bomb.CreateFixture(fixWood);
 	bomb.SetLinearVelocity(plane.GetLinearVelocity());
 	bomb.SetAngle(plane.GetAngle());
+	btrail.push([position.x * scale, position.y * scale])
 }
 
 

@@ -1,5 +1,11 @@
 Chifan::Application.routes.draw do
 
+  get "incharges/create"
+
+  get "incharges/index"
+
+  get "incharges/update"
+
   resources :lunchs
   
   get "lunch/show"

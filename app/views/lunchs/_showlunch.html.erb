@@ -12,8 +12,8 @@
 	<td>
 		<% @lunch.attrelationships.each do |ar|%>
 			<div class="label label-success span margin_mini">
-				<%= ar.user.email%><br>
-				报名时间：<%= ar.created_at.to_time.strftime('%H点%M分')%>
+				<%= ar.user.name%><br>
+				<%= ar.created_at.to_time.strftime('%H点%M分')%>
 			</div>
 		<% end %>
 	</td>
@@ -22,25 +22,25 @@
 		<% if @lunch.checkedout? %>
 				结账花费：<%= @lunch.expense %>元
 				<% if @lunch.expense != nil and @lunch.participants.count != 0 %>
-					<br>人均消费：<%= @lunch.expense / @lunch.participants.count %>元
+					<br>人均消费：<%= @lunch.expense.to_f / @lunch.participants.count %>元
 				<% end %>
 		<% else %>
 				团长还没结账
 		<% end %>
 	</td>
 	<!------------------------------------------------------------>
-	<td width="8%">
+	<td width="10%">
 		<% if !@lunch.checkedout? %>
 			<% @attrelationship = @lunch.attrelationship current_user %>
 			<% if @attrelationship != nil %>
-				<%= link_to "退出", 
+				<%= link_to "不吃了", 
 					@attrelationship, 
 					method: :delete,
 					class: "btn btn-primary btn-danger",
 					data: { confirm: 'Are you sure to quit?' }
 				%>
 			<% else %>
-				<%= link_to "加入", 
+				<%= link_to "我吃！", 
 					{controller: :attrelationships,
 					user_id: current_user.id, 
 					lunch_id: @lunch.id},
@@ -69,8 +69,9 @@
 <div id="EModal<%=@lunch.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		<h3 id="myModalLabel">Edit Info</h3>
+		<h2 id="myModalLabel">结账</h2>
 	</div>
+	<div class="padding_all_deep container">
 	<%= form_for(@lunch) do |l| %>
 		<% if @lunch.checkedout? %>
 				修改账单金额：
@@ -80,4 +81,5 @@
 				<%= l.text_field :expense %>元
 				<%= l.submit "OK", class: "btn" %>
 			<% end %>
+	</div>
 </div>

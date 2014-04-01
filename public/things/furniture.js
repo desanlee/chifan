@@ -56,4 +56,27 @@ function CreateChair(world, position, direction) {
 }
 
 function CreateTable(world, position) {
+	// length is 18, height is 18
+	// png length is 180, height is 360
+	tableDef = new b2BodyDef;
+	tableDef.type = b2Body.b2_dynamicBody;
+	tableDef.userData = document.getElementById("table")
+	
+	tableDef.position.SetV(position)	
+	table = world.CreateBody(tableDef)
+	
+	fixWood.shape = new b2PolygonShape;
+	fixWood.shape.SetAsArray([
+		new b2Vec2(-9 * fu_s, -16 * fu_s),
+		new b2Vec2(-9 * fu_s, -18 * fu_s),
+		new b2Vec2(9 * fu_s, -18 * fu_s),
+		new b2Vec2(9 * fu_s, -16 * fu_s)
+	])	
+	table.CreateFixture(fixWood);
+	
+	fixWood.shape = new b2CircleShape(0.5);
+	fixWood.shape.SetLocalPosition(new b2Vec2(-8.5 * fu_s, -0.5))	
+	table.CreateFixture(fixWood);
+	fixWood.shape.SetLocalPosition(new b2Vec2(8.5 * fu_s, -0.5))	
+	table.CreateFixture(fixWood);
 }

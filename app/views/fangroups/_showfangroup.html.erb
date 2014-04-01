@@ -1,50 +1,114 @@
 <tr>
 	<td width="30%">
 		<h3><%= @fangroup.nickname %> </h3><br>
-		<% if @fangroup.inchargeapplications.count > -1 and @fangroup.user_id == current_user.id%>
-			充值申请：<%= @fangroup.inchargeapplications.count %>个<br>
+		<% if @fangroup.inchargeapplications.count > 0 and @fangroup.user_id == current_user.id%>
+			充值申请：<%= @fangroup.inchargeapplications.count %>个 &nbsp
+			<a href="#CModal<%=@fangroup.id%>" data-toggle="modal" class="btn btn-mini btn-info">确认</a>
+			<br>
 		<% end %>
 		值班团长：<%= @fangroup.user.name if  @fangroup.user != nil %><br>
-		资金：<%= @fangroup.remaining %>元，团员：<%= @fangroup.users.count %>人
+		剩余资金：<%= @fangroup.remaining %>元，团员：<%= @fangroup.users.count %>人
 	</td>
+	<!-------------------------------------------------------------------->
 	<td width="50%">
 		<% @fangroup.users.each do |u|%>
-			<div class="label label-success span margin_mini"><%= u.email %></div>
+			<div class="label label-success span margin_mini">
+				<%= u.name %><br>
+				余额：<%= u.remaining @fangroup %>元
+			</div>
 		<% end %>
 	</td>
+	<!-------------------------------------------------------------------->
 	<td width="20%">
 			<% @followrelationship = @fangroup.followrelationship current_user %>
 			<% if @followrelationship != nil %>
-				我有余额：<%= current_user.remaining @fangroup %>元<br><hr>
-				<%= link_to "充值", "#", class: "btn btn-primary" %><br>
-				<%= link_to "退团", 
-					@followrelationship, 
-					method: :delete,
-					data: { confirm: 'Are you sure to quit?' },
-					class: "btn btn-mini"
-				%>
+				我有余额：<%= current_user.remaining @fangroup %>元<br>
+				<%tmp = current_user.inchargeapplications(@fangroup).count; if tmp > 0 %>
+					有未确认的充值<%= tmp %>笔
+				<% end %><hr>
+				<div class="btn-group">
+					<a href="#EModal<%=@fangroup.id%>" data-toggle="modal" class="btn btn-mini btn-info">充值</a>
+					<%= link_to "退团", 
+						@followrelationship, 
+						method: :delete,
+						data: { confirm: '确定要退出团体' },
+						class: "btn btn-mini btn-warning"
+					%>
 			<% else %>
-				<%= link_to "入团", 
-					{controller: :followrelationships,
-					action: :create,
-					method: :post,
-					user_id: current_user.id, 
-					fangroup_id: @fangroup.id},
-					class: "btn btn-primary btn-success"
-				%><br>
-			<% end %>
-			<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
-				<%= link_to '删团', 
-					@fangroup, 
-					method: :delete, 
-					data: { confirm: 'Are you sure to destroy?' },
-					class: "btn btn-mini"
-				%><br>
-			<% end %>
-			<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
-				<%= link_to '换团长', "#", class: "btn btn-mini" %>
-			<% end %><br>
+				<div class="btn-group">
+					<%= link_to "入团", 
+						{controller: :followrelationships,
+						action: :create,
+						method: :post,
+						user_id: current_user.id, 
+						fangroup_id: @fangroup.id},
+						class: "btn btn-mini btn-success"
+					%>
+				<% end %>
+				<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
+					<%= link_to '删团', 
+						@fangroup, 
+						method: :delete, 
+						data: { confirm: 'Are you sure to destroy?' },
+						class: "btn btn-mini btn-danger"
+					%>
+				<% end %>
+				<% if @fangroup.user_id == current_user.id and @fangroup.remaining == 0 %>
+					<a href="#OModal<%=@fangroup.id%>" data-toggle="modal" class="btn btn-mini">换团长</a>
+				<% end %>
+			</div>
 		</td>
 </tr>
 
+<!-- Modal for Incharge-->
+<div id="EModal<%=@fangroup.id%>" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		<h2 id="myModalLabel">充值申请</h2>
+	</div>
+	<div class="padding_all_deep container">
+		<%= form_for(@incharge) do |l| %>
+			充值：<%= l.text_field :amount %>元
+			<%= l.hidden_field :user_id, value: current_user.id %>
+			<%= l.hidden_field :fangroup_id, value: @fangroup.id %>
+			<%= l.submit "OK", class: "btn" %>
+		<% end %>
+	</div>
+</div>
+
+<!-- Modal for Confirm Incharge-->
+<div id="CModal<%=@fangroup.id%>" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		<h2 id="myModalLabel">确认充值成功</h2>
+	</div>
+	<div class="padding_all_deep container">
+		<ul>
+			<% @fangroup.inchargeapplications.each do |ui|%>
+				<li>
+					<%= form_for(ui) do |i| %>
+						<%= i.hidden_field :confirm, value: "1" %>
+						<%= ui.user.name %>申请充值<%= ui.amount %>元  
+						&nbsp&nbsp<%= link_to "删除申请", ui, method: :delete, data: { confirm: 'Are you sure?' } %>&nbsp&nbsp
+						<%= i.submit "确认充值", class: "btn btn-mini btn-success" %> &nbsp
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+</div>
+
+<!-- Modal for Change Fangroup Owner-->
+<div id="OModal<%=@fangroup.id%>" class="modal hide fade container" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		<h3 id="myModalLabel">换值班团长</h3>
+	</div>
+	<div class="padding_all_deep container">
+		<%= form_for(@fangroup) do |l| %>
+			<% l.hidden_field :user_id, value: current_user.id %>
+			<%= l.submit "OK", class: "btn" %>
+		<% end %>
+	</div>
+</div>
 

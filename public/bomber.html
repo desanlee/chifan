@@ -1,6 +1,6 @@
 ﻿<html>
    <head>
-      <title>Take Metro</title>
+      <title>Bomber Fly High</title>
 	  <script type="text/javascript" src="./physics_game/Box2dWeb-2.1.a.3.js"></script>
 	  <script type="text/javascript" src="./physics_game/materials.js"></script>
 	  <script type="text/javascript" src="./physics_game/control.js"></script>
@@ -10,7 +10,7 @@
    </head>
    
    <body onload="init();">
-      <center><canvas id="canvas" width="1200" height="550" style="background-color:#070B19;" ></canvas></center>
+      <center><canvas id="canvas" width="1200" height="550" style="background-image:url(./resources/ju-87/background.png)" ></canvas></center>
    </body>
    
    <script type="text/javascript">
@@ -26,8 +26,10 @@
 	} 
 	document.onkeydown=ss;
 
-
 var wwidth = 1200; var wheight = 550;
+var trail = new Array();
+var btrail = new Array();
+var bombs = new Array();
 var scale = 10;
 var canvas = document.getElementById('canvas');
 var ctx=canvas.getContext("2d");
@@ -73,21 +75,30 @@ function init() {
 	*/
 	//////////////////////////////////////////////////////////
 	
-	var stuka = CreatePlane(world)
-	InitPlane(world, stuka, new b2Vec2(-4, 10))
+	CreateBasket(world, new b2Vec2(18, 51))
+	CreateBasket(world, new b2Vec2(18, 53))
+	CreateBasket(world, new b2Vec2(18, 54))
 	
-	CreateBasket(world, new b2Vec2(58, 51))
-	CreateBasket(world, new b2Vec2(58, 53))
-	CreateBasket(world, new b2Vec2(58, 54))
+	CreateTank(world, new b2Vec2(70, 54.5))
+	CreateBasket(world, new b2Vec2(65, 53.5))
+	CreateBasket(world, new b2Vec2(65, 51.5))
 	
-	CreateTank(world, new b2Vec2(50, 54.5))
 	CreateTank(world, new b2Vec2(100, 54.5))
 	
-	CreateBasket(world, new b2Vec2(15, 54.5))
-	CreateBasket(world, new b2Vec2(15, 53))
+	CreateBasket(world, new b2Vec2(25, 54.5))
+	CreateBasket(world, new b2Vec2(25, 53))
 	
 	CreateBasket(world, new b2Vec2(89, 52.5))
 	CreateBasket(world, new b2Vec2(90, 54.5))
+	
+	CreateTable(world, new b2Vec2(85, 54.5))
+	CreateTable(world, new b2Vec2(50, 54.5))
+	
+	CreateTank(world, new b2Vec2(55, 36.5))
+	CreateBasket(world, new b2Vec2(45, 36.5))
+	
+	var stuka = CreatePlane(world)
+	InitPlane(world, stuka, new b2Vec2(-4, 15))
 	
 	//////////////////////////////////////////////////////////
     //setup debug draw
@@ -111,6 +122,9 @@ function init() {
 	function beginContact(contact){
 		if(contact.GetFixtureA().GetBody().GetUserData()) {
 			if(contact.GetFixtureA().GetBody().GetUserData().id == "bomb" ){
+				contact.GetFixtureA().GetBody().SetAngle(0)
+				contact.GetFixtureA().GetBody().SetActive(false)
+				contact.GetFixtureA().GetBody().SetUserData(document.getElementById("b-bomb"))
 				if(contact.GetFixtureB().GetBody().GetUserData().id == "t34") {
 					hitTarget = true;
 					contact.GetFixtureB().GetBody().SetUserData(document.getElementById("b-t34"))
@@ -122,6 +136,9 @@ function init() {
 		}
 		if(contact.GetFixtureB().GetBody().GetUserData()) {
 			if(contact.GetFixtureB().GetBody().GetUserData().id == "bomb" ){
+				contact.GetFixtureB().GetBody().SetAngle(0)
+				contact.GetFixtureB().GetBody().SetActive(false)
+				contact.GetFixtureB().GetBody().SetUserData(document.getElementById("b-bomb"))
 				if(contact.GetFixtureA().GetBody().GetUserData().id == "t34") {
 					hitTarget = true;
 					contact.GetFixtureA().GetBody().SetUserData(document.getElementById("b-t34"))
@@ -140,7 +157,7 @@ function init() {
 			ctx.font="50px Georgia";
 			ctx.fillText("JU-87 斯图卡 - 俯冲轰炸", 350, 130);
 			ctx.font="35px Georgia";
-			ctx.fillText("任务：携带炸弹2枚，击毁至少一辆T34坦克", 280, 200);
+			ctx.fillText("任务：携带炸弹5枚，击毁至少一辆T34坦克", 280, 200);
 			ctx.fillText("Press 1 to start", 400, 300);
 			ctx.font="20px Georgia";
 			ctx.fillText("Use LEFT/RIGHT to speed up/down", 400, 400);
@@ -157,16 +174,16 @@ function init() {
 				time2 = new Date()
 				duration = time2.getTime() - time1.getTime()
 				ctx.font="30px Georgia";
-				ctx.fillText("USED  " + Math.floor(duration / 100) / 10 + "  SECONDS", 420, 200);
+				ctx.fillText("USED  " + Math.floor(duration / 100) / 10 + "  SECONDS", 420, 130);
 				ctx.font="50px Georgia";
-				ctx.fillText("MISSION ACCOMPLISHED!", 400, 300);
-				ctx.font="15px Georgia";
-				ctx.fillText("Press 2 to restart", 400, 320);
+				ctx.fillText("MISSION ACCOMPLISHED!", 400, 200);
+				ctx.font="30px Georgia";
+				ctx.fillText("Press 2 to restart", 400, 230);
 			} else {
 				ctx.font="50px Georgia";
 				ctx.fillText("MISSION FAILED!", 400, 200);
-				ctx.font="20px Georgia";
-				ctx.fillText("Press 2 to restart", 400, 220);
+				ctx.font="30px Georgia";
+				ctx.fillText("Press 2 to restart", 400, 230);
 			}
 			finished = true;
 			return;
@@ -180,9 +197,20 @@ function init() {
 		//ctx.fillText("This world, width: " + Math.floor(worldSize.x/scale) + " M, height: "+ Math.floor(worldSize.y/scale) + " M" , 10, 50);
 		ctx.fillText("Plane PowerForce: " + powerForce + "N", 3, 80);
 		//ctx.fillText("Plane Weight: " + Math.floor(plane.GetMass() * 4) + "N", 10, 100);
+		
+		for (i=0;i< btrail.length;i++) {
+			ctx.save();
+			ctx.font="20px Georgia";
+			ctx.fillText("投弹", btrail[i][0], btrail[i][1])
+			ctx.restore();
+		}
+		for (i=0;i< trail.length;i = i+10) {
+			ctx.fillText(".", trail[i][0], trail[i][1])
+		}
+		
 		if(hitTarget) {
 			ctx.font="30px Georgia";
-			ctx.fillText("COOL! RIGHT ON THE BATTERY", 300, 400);
+			ctx.fillText("COOL! RIGHT ON THE BATTERY", 300, 80);
 			ctx.font="20px Georgia";
 			gamePass = true;
 		}
@@ -213,9 +241,11 @@ function init() {
 <div id="assets" style="display:none">
     <img id="stuka" src="resources/ju-87/stuka_s.png" />
 	<img id="bomb" src="resources/ju-87/bomb.png" />
+	<img id="b-bomb" src="resources/ju-87/b-bomb.png" />
 	<img id="t34" src="resources/ju-87/t34.png" />
 	<img id="b-t34" src="resources/ju-87/b-t34.png" />
 	<img id="basket" src="resources/ju-87/basket.png" />
+	<img id="table" src="resources/ju-87/table.png" />
 </div>
 				
    
