@@ -67,10 +67,10 @@ function CreateTable(world, position) {
 	
 	fixWood.shape = new b2PolygonShape;
 	fixWood.shape.SetAsArray([
-		new b2Vec2(-9 * fu_s, -17.5 * fu_s),
+		new b2Vec2(-9 * fu_s, -16 * fu_s),
 		new b2Vec2(-9 * fu_s, -18 * fu_s),
 		new b2Vec2(9 * fu_s, -18 * fu_s),
-		new b2Vec2(9 * fu_s, -17.5 * fu_s)
+		new b2Vec2(9 * fu_s, -16 * fu_s)
 	])	
 	table.CreateFixture(fixWood);
 	

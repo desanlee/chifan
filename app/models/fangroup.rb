@@ -9,18 +9,26 @@ class Fangroup < ActiveRecord::Base
   has_many :incharges, class_name: "Incharge"
   has_many :lunches, class_name: "Lunch"
   
+  def expense
+  	sum = 0;
+  	self.lunches.each do |l|
+  		sum += l.expense if l.expense != nil
+  	end
+  	return sum
+	end
+	
   def remaining
 		sum = 0;
 		self.incharges.each do |i|
-			sum += i.amount
+			sum += i.amount if i.confirm == 1
 		end
-		return sum
+		return sum - self.expense
   end
 	
 	def inchargeapplications
 		ia = Array.new
 		self.incharges.each do |i|
-			ia << i
+			ia << i if i.confirm != 1
 		end
 		return ia
 	end

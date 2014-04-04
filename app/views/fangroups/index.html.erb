@@ -1,5 +1,5 @@
 <div>
-	<h2>当前饭团有<%= Fangroup.count %>个，加入其中，或者创建自己的饭团</h2><br>
+	<h2>当前团体有<%= Fangroup.count %>个，加入其中，或者创建自己的团体</h2><br>
 	<table class="table">
 		<% @fangroups.each do |fangroup| %>
 			<% @fangroup = fangroup %>
@@ -8,7 +8,8 @@
 	</table>
 </div>
 
+<hr>
 <div>
-	<h2>创建新饭团</h2>
+	<h2>创建新团体</h2>
 	<%= render "newfangroup" %>
 </div>

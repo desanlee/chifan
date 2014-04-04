@@ -25,6 +25,16 @@ class User < ActiveRecord::Base
 		end
   end
 	
+	def inchargeapplications fangroup
+		ia = Array.new
+		self.incharges.each do |i|
+			if i.fangroup == fangroup
+				ia << i if i.confirm != 1
+			end
+		end
+		return ia
+	end
+	
 	def inchargeamount fangroup
 		amount = 0
 		self.confirmedcharges.each do |c|
@@ -36,15 +46,15 @@ class User < ActiveRecord::Base
 	def lunchamount fangroup
 		amount = 0
 		self.confirmedlunchs.each do |l|
-			amount += l.expense if l.fangroup == fangroup
+			amount += ( l.expense.to_f / l.participants.count ) if l.fangroup == fangroup
 		end
-		return amount
+		return (amount * 10).round / 10.0
 	end
 	
 	def confirmedcharges
 		cc = Array.new
 		self.incharges.each do |c|
-			cc << c if c.confirmed == 1
+			cc << c if c.confirm == 1
 		end
 		return cc
 	end

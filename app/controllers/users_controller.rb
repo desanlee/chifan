@@ -12,4 +12,11 @@ class UsersController < ApplicationController
 	redirect_to :back
   end
 
+  def update
+    @user = User.find(params[:id])
+
+    @user.update_attributes(params[:user])
+		redirect_to "/users"
+  end
+	
 end
