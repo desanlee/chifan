@@ -1,4 +1,4 @@
-<div>
+<div class="container">
 	<h2>当前团体有<%= Fangroup.count %>个，加入其中，或者创建自己的团体</h2><br>
 	<table class="table">
 		<% @fangroups.each do |fangroup| %>
@@ -6,10 +6,8 @@
 			<%= render "showfangroup" %>
 		<%end%>
 	</table>
-</div>
 
 <hr>
-<div>
 	<h2>创建新团体</h2>
 	<%= render "newfangroup" %>
 </div>

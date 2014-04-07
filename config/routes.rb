@@ -1,5 +1,11 @@
 Chifan::Application.routes.draw do
 
+  resources :scores
+
+
+  resources :games
+
+
   get "incharges/create"
 
   get "incharges/index"

@@ -1,1 +1,40 @@
-<h2>Funny GAMES! will be coming soon! </h2>
+﻿<h2>Indoor Pilot (屋里的飞行员)</h2><br>
+<center class="container">
+<table class="table span10">
+	<tr>
+		<th>关卡</th>
+		<th>关卡详细信息</th>
+		<th>排行榜</th>
+		<th></th>
+	</tr>
+<% @games.each do |game| %>
+  <tr>
+    <td>
+			Season<%= game.season %><br>
+			Episode<%= game.episode %>
+		</td>
+    <td>
+			标题：<%= game.title %><br>
+			介绍：<%= game.info %><br>
+			任务：<%= game.task %>
+		</td>
+		<td>
+		</td>
+    <td>
+			<%= link_to 'Play!', game %>
+			<% if current_user.email == "ji.x.li@oracle.com"%>
+				<%= link_to 'Edit', edit_game_path(game) %>
+				<%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% end %>
+		</td>
+  </tr>
+<% end %>
+</table>
+
+</center>
+
+<% if current_user.email == "ji.x.li@oracle.com"%>
+	<hr><center>
+	<%= link_to 'New Episode', new_game_path %></center>
+<% end %>
+

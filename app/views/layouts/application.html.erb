@@ -8,7 +8,7 @@
     <%= javascript_include_tag "application" %>
 		<%= javascript_include_tag "defaults" %>
     <%= javascript_include_tag "prototype" %>
-		
+
     <%= csrf_meta_tags %>
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -19,6 +19,12 @@
       <div class="navbar-inner">
         <div class="container">
           <%= link_to "Oracle - 吃饭！", '#', id: "logo" %>
+					<ul class="nav nav-tabs" id="myTab">
+						<li <% if session[:tab] == "lunchs" %> class="active" <% end %> ><%= link_to "今日饭局", "/lunchs" %></li>
+						<li <% if session[:tab] == "fangroups" %> class="active" <% end %> ><%= link_to "食客团体", "/fangroups" %></li>
+						<li <% if session[:tab] == "users" %> class="active" <% end %> ><%= link_to "个人信息", "/users" %></li>
+						<li <% if session[:tab] == "games" %> class="active" <% end %> ><%= link_to "游戏(test)", "/games" %></li>
+					</ul>
           <nav>
             <ul class="nav pull-right">
               <% if current_user %>
@@ -35,21 +41,6 @@
         </div>
       </div>
     </header>
-
-    <div class="container">
-			<ul class="nav nav-tabs" id="myTab">
-				<li <% if session[:tab] == "lunchs" %> class="active" <% end %> ><%= link_to "今日饭局", "lunchs" %></li>
-				<li <% if session[:tab] == "fangroups" %> class="active" <% end %> ><%= link_to "食客团体", "fangroups" %></li>
-				<li <% if session[:tab] == "users" %> class="active" <% end %> ><%= link_to "个人信息", "users" %></li>
-				<li <% if session[:tab] == "games" %> class="active" <% end %> ><%= link_to "游戏(test)", "games" %></li>
-			</ul>
-      <%= yield %>
-    </div>
-	
-    <footer class="footer">
-    <small>
-    吃饭！  by desanlee@gmail.com
-    </small>
-
+    <%= yield %>
   </body>
 

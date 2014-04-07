@@ -1,0 +1,229 @@
+﻿<body onload="init();">
+	<center><canvas id="canvas" width="1200" height="550" style="background-color:darkgrey;" ></canvas></center>
+</body>
+ 
+<script type="text/javascript">
+	
+	var gameTitle = "<%= @game.title %>"
+	var gameIntro = "<%= @game.info %>"
+	var gameTask = "<%= @game.task %>"
+	
+	var time1
+	
+	function GameControl(event){
+		var key = window.event ? event.keyCode:event.which;
+		if(key == 50) { // keyboard "2"
+			window.location.reload();
+			pause = false;
+		}
+		if(key == 49 ) {	// keyboard "1"
+			if(pause == true) {
+				time1=new Date();
+				pause = false;
+			}
+		}
+	} 
+	document.onkeydown=GameControl;
+
+	var wwidth = 1200; var wheight = 550;
+	var trail = new Array();
+	var btrail = new Array();
+	var bombs = new Array();
+
+	var scale = 10;
+	var canvas = document.getElementById('canvas');
+	var ctx=canvas.getContext("2d");
+	ctx.font="20px Georgia";
+	ctx.fillStyle="white"
+
+	var hitTarget = 0;
+	var outOfControl = false;
+
+	var gameStart = false; 
+	var gamePass = false; 
+	var gameOver = false;
+	var finished = false;
+	var pause = false;
+
+	var duration = 0;
+
+	function init() {
+		
+		var world = new b2World(new b2Vec2(0, 5),  true );
+		var worldSize = new b2Vec2(wwidth, wheight);
+
+		//create ground
+		fixDef.shape = new b2PolygonShape;
+		//define horizon
+		fixDef.shape.SetAsBox(worldSize.x / scale, 0.4);
+		bodyDef.position.Set(0, worldSize.y / scale);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		bodyDef.position.Set(0, 0);
+		world.CreateBody(bodyDef).CreateFixture(fixDef);
+
+		CreateEpisodes<%= @game.season%>e<%= @game.episode%>(world);
+		var plane = CreatePlane(world, new b2Vec2(2, 15))
+		
+		
+		//////////////////////////////////////////////////////////
+		//setup debug draw
+		var debugDraw = new b2DebugDraw();
+		debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
+		debugDraw.SetDrawScale(scale);
+		debugDraw.SetFillAlpha(0.5);
+		debugDraw.SetLineThickness(1);
+		//debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+		//debugDraw.SetFlags(b2DebugDraw.e_shapeBit);
+		world.SetDebugDraw(debugDraw);
+			
+		//////////////////////////////////////////////////////////
+		// setup contacts
+		var contactListener = new Box2D.Dynamics.b2ContactListener;
+		contactListener.BeginContact = beginContact;
+		world.SetContactListener(contactListener);
+		
+		window.setInterval(update, 1000 / 60);
+
+		function beginContact(contact){
+			ba = contact.GetFixtureA().GetBody()
+			bb = contact.GetFixtureB().GetBody()
+			uda = ba.GetUserData();
+			udb = bb.GetUserData();
+			
+			
+			if(uda) {
+				//------------------------------
+				// hit together
+				if(uda.id == "bomb" && udb) {
+					if(udb.id != "bomb" && udb.id != "plane"){
+						ba.SetActive(false)
+						ba.SetUserData(document.getElementById("b-bomb"))
+						if(udb.id == "t34") {
+							hitTarget--;
+							bb.SetUserData(document.getElementById("b-t34"))
+						}
+					}
+				}
+				else if(uda.id == "plane" && udb) { 
+					if(udb.id != "bomb") outOfControl = true;
+				}
+				
+				//--------------------------------
+				// hit ground
+				if(uda.id == "bomb" && !udb) {
+					ba.SetActive(false)
+					ba.SetUserData(document.getElementById("b-bomb"))
+				}
+				else if(uda.id == "plane" && !udb) { 
+					outOfControl = true;
+				}
+			}
+		}
+	
+		/////////////////////////////////////////////////////////
+    //update
+		
+    function update() {
+		
+		if(pause && !gameOver) {
+			ctx.font="40px Georgia";
+			ctx.fillText(gameTitle, 330, 100);
+			ctx.font="25px Georgia";
+			ctx.fillText(gameIntro, 330, 150);
+			ctx.fillText("任务：" + gameTask, 330, 200);
+			ctx.fillText("Hit 1 to start/pause/resume", 360, 260);
+			ctx.font="20px Georgia";
+			ctx.fillText("Hit LEFT/RIGHT to speed up/down", 360, 350);
+			ctx.fillText("Press UP/DOWN to lift/dive", 360, 380);
+			ctx.fillText("Hit SPACE to drop bomb", 360, 410);
+			return;
+		}
+		if(finished) return;
+		if(plane.GetPosition().x > 120) {
+			gameOver = true
+		}
+		if(gameOver) {
+			if(gamePass) {
+				time2 = new Date()
+				duration = time2.getTime() - time1.getTime()
+				ctx.font="30px Georgia";
+				ctx.fillText("USED  " + Math.floor(duration / 100) / 10 + "  SECONDS", 420, 130);
+				ctx.font="50px Georgia";
+				ctx.fillText("MISSION ACCOMPLISHED!", 400, 200);
+				ctx.font="30px Georgia";
+				ctx.fillText("Press 2 to play again", 400, 230);
+			} else {
+				ctx.font="50px Georgia";
+				ctx.fillText("MISSION FAILED!", 400, 200);
+				ctx.font="30px Georgia";
+				ctx.fillText("Press 2 to play again", 400, 230);
+			}
+			finished = true;
+			return;
+		}
+		
+		if(!outOfControl) {
+			ControlFly(world, plane);
+		}
+		world.Step(1 / 60, 10, 10);
+		world.DrawDebugData();
+		
+		ctx.fillText("Plane PowerForce: " + powerForce + "N", 3, 40);
+		
+		for (i=0;i< btrail.length;i++) {
+			ctx.save();
+			ctx.font="20px Georgia";
+			ctx.fillText("x", btrail[i][0], btrail[i][1])
+			ctx.restore();
+		}
+		for (i=0;i< trail.length;i++) {
+			ctx.fillText(".", trail[i][0], trail[i][1])
+		}
+		
+		if(hitTarget <= 0) {
+			gamePass = true;
+		}
+		if(outOfControl) {
+			gamePass = false;
+			gameOver = true;
+		}
+		
+		for(var b = world.m_bodyList; b != null; b = b.m_next){
+			if(b.GetUserData()){
+				ctx.save();
+				ctx.translate(b.GetPosition().x*10,b.GetPosition().y*10);
+				ctx.rotate(b.GetAngle());             
+				ctx.drawImage(b.GetUserData(),-b.GetUserData().width / 2,-b.GetUserData().height / 2);
+				ctx.restore();
+			}
+		}
+
+		world.ClearForces();
+		
+		if(gameStart == false) {
+			pause = true; 
+			gameStart = true;
+		}
+  }
+}
+   
+</script>
+
+<html> 
+	<div id="assets" style="display:none"> 
+		<%= image_tag "pilot_pics/bomb.png", id: "bomb"%>
+		<%= image_tag "pilot_pics/b-bomb.png", id: "b-bomb" %>
+		
+		<%= image_tag "pilot_pics/t34.png", id: "t34" %> 
+		<%= image_tag "pilot_pics/b-t34.png", id: "b-t34" %> 
+		
+		<%= image_tag "pilot_pics/stuka_s.png", id: "plane" %>
+		
+		<%= image_tag "pilot_pics/basket.png", id: "basket" %>
+		<%= image_tag "pilot_pics/table.png", id: "table" %>
+		<%= image_tag "pilot_pics/chair.png", id: "chair" %>
+		<%= image_tag "pilot_pics/tablelamp.png", id: "tablelamp" %>
+		<%= image_tag "pilot_pics/droplight.png", id: "droplight" %>
+		
+	</div>	
+</html>
