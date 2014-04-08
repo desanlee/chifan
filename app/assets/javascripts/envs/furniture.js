@@ -6,7 +6,7 @@ function CreateBasket(world, position) {
 	// length of edge is 6
 	// png length is 60
 	basketDef = new b2BodyDef;
-	basketDef.type = b2Body.b2_dynamicBody;
+	basketDef.type = b2Body.b2_staticBody;
 	basketDef.userData = document.getElementById("basket")
 	
 	basketDef.position.SetV(position)	

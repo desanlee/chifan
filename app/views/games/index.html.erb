@@ -19,6 +19,15 @@
 			任务：<%= game.task %>
 		</td>
 		<td>
+		<% if game.scores.count == 0 then %>
+			没有记录
+		<% else %>
+			<ul>
+				<% game.scores.each do |s|%>
+					<li><%= s.record %>秒，<%= s.user.name %></li>
+				<% end %>
+			</ul>
+		<% end %>
 		</td>
     <td>
 			<%= link_to 'Play!', game %>

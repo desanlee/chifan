@@ -44,6 +44,7 @@
 	var gameOver = false;
 	var finished = false;
 	var pause = false;
+	var uploaded = false;
 
 	var duration = 0;
 
@@ -145,14 +146,23 @@
 		if(gameOver) {
 			if(gamePass) {
 				time2 = new Date()
-				duration = time2.getTime() - time1.getTime()
+				duration = Math.floor((time2.getTime() - time1.getTime()) / 100) / 10.0
 				ctx.font="30px Georgia";
-				ctx.fillText("USED  " + Math.floor(duration / 100) / 10 + "  SECONDS", 420, 130);
+				ctx.fillText("USED  " + duration + "  SECONDS", 420, 130);
 				ctx.font="50px Georgia";
 				ctx.fillText("MISSION ACCOMPLISHED!", 400, 200);
 				ctx.font="30px Georgia";
 				ctx.fillText("Press 2 to play again", 400, 230);
 				//window.location.href="/application/switchexpansion?infoid=" + infoid;
+				
+				if(!uploaded && duration > <%= @game.threshold %>) {
+					uploaded = true;
+					if(window.confirm( duration + '秒！排名前三的成绩！要提交吗？')){
+						//window.location.href="/score/create?user_id=<%=current_user.id%>,record=" + (Math.floor(duration / 100) / 10);
+					}else{
+					
+	       	}
+	      }
 			} else {
 				ctx.font="50px Georgia";
 				ctx.fillText("MISSION FAILED!", 400, 200);
