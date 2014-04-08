@@ -20,6 +20,7 @@
         <div class="container">
           <%= link_to "Oracle - 吃饭！", '#', id: "logo" %>
 					<ul class="nav nav-tabs" id="myTab">
+						<li> &nbsp&nbsp&nbsp</li>
 						<li <% if session[:tab] == "lunchs" %> class="active" <% end %> ><%= link_to "今日饭局", "/lunchs" %></li>
 						<li <% if session[:tab] == "fangroups" %> class="active" <% end %> ><%= link_to "食客团体", "/fangroups" %></li>
 						<li <% if session[:tab] == "users" %> class="active" <% end %> ><%= link_to "个人信息", "/users" %></li>

@@ -24,7 +24,12 @@
 			<% if @followrelationship != nil %>
 				我有余额：<%= current_user.remaining @fangroup %>元<br>
 				<%tmp = current_user.inchargeapplications(@fangroup).count; if tmp > 0 %>
-					有未确认的充值<%= tmp %>笔
+					<div class="text-error">有未确认的充值<%= tmp %>笔</div>
+					<ul class="text-error">
+						<% current_user.inchargeapplications(@fangroup).each do |c| %>
+							<li><%= c.created_at.to_time.strftime('%m月%d日')%>申请充<%= c.amount%>元</li>
+						<% end %>
+					</ul>
 				<% end %><hr>
 				<div class="btn-group">
 					<a href="#EModal<%=@fangroup.id%>" data-toggle="modal" class="btn btn-mini btn-info">充值</a>

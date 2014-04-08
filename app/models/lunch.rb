@@ -1,10 +1,11 @@
 class Lunch < ActiveRecord::Base
-  attr_accessible :expense, :note, :title, :fangroup_id
+  attr_accessible :expense, :note, :title, :fangroup_id, :user_id
   
   has_many :attrelationships, foreign_key: "lunch_id", class_name:  "Attrelationship", dependent: :destroy
   has_many :participants, through: :attrelationships, source: :user
   
   belongs_to :fangroup, class_name: "Fangroup" 
+	belongs_to :user, class_name: "User"
   
 	def today?
 		if Time.now.strftime('%y%m%d') == self.created_at.to_time.strftime('%y%m%d')
