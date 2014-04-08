@@ -155,13 +155,12 @@
 				ctx.fillText("Press 2 to play again", 400, 230);
 				//window.location.href="/application/switchexpansion?infoid=" + infoid;
 				
-				if(!uploaded && duration > <%= @game.threshold %>) {
+				if(!uploaded && duration < <%= @game.threshold %>) {
 					uploaded = true;
 					if(window.confirm( duration + '秒！排名前三的成绩！要提交吗？')){
-						//window.location.href="/score/create?user_id=<%=current_user.id%>,record=" + (Math.floor(duration / 100) / 10);
-					}else{
-					
-	       	}
+						//SubmitScore("/scores/new",<%=@game.id%>,<%=current_user.id%>, duration );
+						window.location.href="/scores/submit?game_id=<%=@game.id%>&user_id=<%=current_user.id%>&record=" + duration ;
+					}
 	      }
 			} else {
 				ctx.font="50px Georgia";

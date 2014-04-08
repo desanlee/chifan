@@ -4,7 +4,7 @@
 	<tr>
 		<th>关卡</th>
 		<th>关卡详细信息</th>
-		<th>排行榜</th>
+		<th>三甲排行榜</th>
 		<th></th>
 	</tr>
 <% @games.each do |game| %>
@@ -23,7 +23,10 @@
 			没有记录
 		<% else %>
 			<ul>
+				<% tmp = 0 %>
 				<% game.scores.each do |s|%>
+					<% tmp = tmp + 1
+					break if tmp > 3 %>
 					<li><%= s.record %>秒，<%= s.user.name %></li>
 				<% end %>
 			</ul>

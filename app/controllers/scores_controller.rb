@@ -1,4 +1,15 @@
 class ScoresController < ApplicationController
+
+	def submit
+	   @score = Score.new
+		 @score.game_id = params[:game_id]
+		 @score.user_id = params[:user_id]
+		 @score.record = params[:record]
+		@score.save
+		
+		redirect_to :back
+	end
+	
   # GET /scores
   # GET /scores.json
   def index

@@ -1,5 +1,6 @@
 Chifan::Application.routes.draw do
 
+	get "scores/submit"
   resources :scores
 
 
@@ -7,15 +8,14 @@ Chifan::Application.routes.draw do
 
 
   get "incharges/create"
-
   get "incharges/index"
-
   get "incharges/update"
 
   resources :lunchs
   
+	
+	
   get "lunch/show"
-
   get "mainpage/home"
   get "mainpage/newlunch"
 

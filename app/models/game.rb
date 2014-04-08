@@ -5,7 +5,7 @@ class Game < ActiveRecord::Base
   
   def threshold
   	if self.scores.count < 3 then
-  		return 0
+  		return 1000
   	else
   		return self.scores.third.record
   	end
