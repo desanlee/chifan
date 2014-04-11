@@ -3,9 +3,9 @@ class ScoresController < ApplicationController
 	def submit
 	   @score = Score.new
 		 @score.game_id = params[:game_id]
-		 @score.user_id = params[:user_id]
+		 @score.user_id = current_user.id
 		 @score.record = params[:record]
-		@score.save
+		@score.save if @score.record > 6.3
 		
 		redirect_to :back
 	end

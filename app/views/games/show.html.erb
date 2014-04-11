@@ -146,7 +146,7 @@
 		if(gameOver) {
 			if(gamePass) {
 				time2 = new Date()
-				duration = Math.floor((time2.getTime() - time1.getTime()) / 100) / 10.0
+				duration = Math.floor((time2.getTime() - time1.getTime()) / 10) / 100.0
 				ctx.font="30px Georgia";
 				ctx.fillText("USED  " + duration + "  SECONDS", 420, 130);
 				ctx.font="50px Georgia";

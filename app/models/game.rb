@@ -3,6 +3,8 @@ class Game < ActiveRecord::Base
   
   has_many :scores, class_name: "Score"
   
+  default_scope order: 'games.season ASC'
+  
   def threshold
   	if self.scores.count < 3 then
   		return 1000

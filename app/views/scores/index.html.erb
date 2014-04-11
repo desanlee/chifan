@@ -1,27 +1,31 @@
-<h1>Listing scores</h1>
-
-<table>
-  <tr>
-    <th>Game</th>
-    <th>User</th>
-    <th>Record</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @scores.each do |score| %>
-  <tr>
-    <td><%= score.game_id %></td>
-    <td><%= score.user_id %></td>
-    <td><%= score.record %></td>
-    <td><%= link_to 'Show', score %></td>
-    <td><%= link_to 'Edit', edit_score_path(score) %></td>
-    <td><%= link_to 'Destroy', score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<% if current_user.email == "ji.x.li@oracle.com" %>
+	<h1>Listing scores</h1>
+	
+	<table>
+	  <tr>
+	    <th>Game</th>
+	    <th>User</th>
+	    <th>Record</th>
+	    <th></th>
+	    <th></th>
+	    <th></th>
+	  </tr>
+	
+	<% @scores.each do |score| %>
+	  <tr>
+	    <td><%= score.game_id %></td>
+	    <td><%= score.user_id %></td>
+	    <td><%= score.record %></td>
+	    <td><%= link_to 'Show', score %></td>
+	    <td><%= link_to 'Edit', edit_score_path(score) %></td>
+	    <td><%= link_to 'Destroy', score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	  </tr>
+	<% end %>
+	</table>
+	
+	<br />
+	
+	<%= link_to 'New Score', new_score_path %>
+<% else %>
+	<h1><%= current_user.name %> is not authorized to access this page</h1>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Score', new_score_path %>

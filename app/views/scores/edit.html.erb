@@ -1,6 +1,10 @@
-<h1>Editing score</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @score %> |
-<%= link_to 'Back', scores_path %>
+<% if current_user.email == "ji.x.li@oracle.com" %>
+	<h1>Editing score</h1>
+	
+	<%= render 'form' %>
+	
+	<%= link_to 'Show', @score %> |
+	<%= link_to 'Back', scores_path %>
+<% else %>
+	<h1><%= current_user.name %> is not authorized to access this page</h1>
+<% end %>

@@ -23,13 +23,13 @@ function CreateEpisodes2e2(world) {
   weaponCount = 2
   hitTarget = 1
 
-	CreateBasket(world, new b2Vec2(50, 53))
-	CreateBasket(world, new b2Vec2(47, 47))
-	CreateBasket(world, new b2Vec2(53, 47))
-	CreateBasket(world, new b2Vec2(50, 41))
-	CreateBasket(world, new b2Vec2(44, 41))
-	CreateBasket(world, new b2Vec2(56, 41))
-	CreateBasket(world, new b2Vec2(50, 35))
+	CreateBasket(world, new b2Vec2(50, 52))
+	CreateBasket(world, new b2Vec2(47, 46))
+	CreateBasket(world, new b2Vec2(53, 46))
+	CreateBasket(world, new b2Vec2(50, 40))
+	CreateBasket(world, new b2Vec2(44, 40))
+	CreateBasket(world, new b2Vec2(56, 40))
+	CreateBasket(world, new b2Vec2(50, 34))
 	
 	CreateBasket(world, new b2Vec2(70, 53))
 	CreateBasket(world, new b2Vec2(76, 53))
