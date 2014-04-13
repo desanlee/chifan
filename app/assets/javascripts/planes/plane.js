@@ -1,20 +1,26 @@
-
+﻿
 
 //------------------------
 // global vars
 //------------------------
 var weaponCount = 5	// default if this is not defined in episode
 
-var powerForce = 8
-var maxPower = 16
-var minPower = 4
+var powerForce = 8.0
+var maxPower = 16.0
+var minPower = 4.0
 
-var risiPower = 8
+var risiPower = 8.0
 
 var initSpeed = 8.0
 var minSpeed = 4.0
 
+var angleSpeed = 18.0
 var diveAngle = b2Pi / 2
+
+var rollDuration = 30	//一次翻滚动作需要的时间，？次刷新
+var rollTime = 0	
+var rollOver = true	//翻滚已经结束？
+var roll = false	//飞机是否翻滚过？
 
 //---------------------------------------------	
 // create a new plane
@@ -45,7 +51,7 @@ function CreatePlane(world, position) {
 //
 //----------------------------------------------
 
-var trailint = 10
+var trailint = 0
 function ControlFly(world, plane){
 	
 	position = new b2Vec2;
@@ -53,27 +59,56 @@ function ControlFly(world, plane){
 	mscenter = new b2Vec2;
 	mscenter.SetV(plane.GetWorldCenter());
 	
+	angle = plane.GetAngle() % (2 * 3.1415926);
+	speedV = plane.GetLinearVelocity();
+	speed = speedV.Length();
+	speedAngle = Math.atan2(speedV.x, speedV.y);
+	effectiveSpeed = speed * Math.cos(angle - speedAngle)
+	
 	if(trailint % 10 == 0) {
 		trail.push([position.x * scale, position.y * scale]);
 	}
 	trailint++;
 	
 	//----------------------------------------------
-	// control plane angle
-	angle = plane.GetAngle() % (2 * 3.1415926);
-	speedV = plane.GetLinearVelocity();
-	speed = speedV.Length();
-	speedAngle = Math.atan2(speedV.x, speedV.y);
+	// set plane picture
+	if((rollTime > 0 && rollTime < 10) || (rollTime > 20 && rollTime < 30)) plane.SetUserData(document.getElementById("m-plane"))
+	else if(rollTime > 10 && rollTime < 20) plane.SetUserData(document.getElementById("p-plane"))
+	else if(roll) plane.SetUserData(document.getElementById("r-plane"))
+	else plane.SetUserData(document.getElementById("plane"))
 	
-
-	if(keyU) plane.SetAngularVelocity(-18);
-	if(angle < diveAngle) {
-		if(keyD) plane.SetAngularVelocity(16);
+	//----------------------------------------------
+	// roll the plane
+	if(keyA && rollOver) {
+		rollOver = false;
+		rollTime = rollDuration
+		keyA = false;
 	}
+	if(rollOver == false) {
+		rollTime--
+		if(rollTime == 0){
+			rollOver = true;
+			if(roll == true) roll = false
+			else roll = true
+		}
+	}
+	//----------------------------------------------
+	// control plane angle
+	if(effectiveSpeed < initSpeed)
+		as = angleSpeed - 3.0 + (3.0 * effectiveSpeed / initSpeed)
+	else 
+		as = angleSpeed
+		
+	if(roll) as = -as
+	if(keyD) plane.SetAngularVelocity(-as);
+	if(keyU) plane.SetAngularVelocity(as);
 	
 	//----------------------------------------------
 	// add lift, according to plane angle
-	plane.ApplyForce(LiftForce(plane.GetMass() * 5) , position);
+	// when rolling, no lift exist
+	if(rollOver) {
+		plane.ApplyForce(LiftForce(plane.GetMass() * 5) , position);
+	}
 	
 	//----------------------------------------------
 	// add power, according to settings and plane angle
@@ -123,6 +158,11 @@ function ControlFly(world, plane){
 		p = new b2Vec2;
 		p.x = position.x - mscenter.x;
 		p.y = position.y - mscenter.y;
+		
+		if(roll) {
+			p.x = -p.x
+			p.y = -p.y
+		}
 		
 		return new b2Vec2(
 			realPower * p.y / p.Length(),

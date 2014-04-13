@@ -79,6 +79,7 @@
 					结账：
 				<% end %>
 				<%= l.text_field :expense %>元
+				<%= l.hidden_field :user_id, value: current_user.id %>
 				<%= l.submit "OK", class: "btn" %>
 			<% end %>
 	</div>

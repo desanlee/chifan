@@ -3,7 +3,7 @@ function Fire(world, plane) {
 	position = new b2Vec2;
 	position.SetV(plane.GetPosition());
 	position.x -= 0.6
-	position.y += 0.6
+	position.y += 1
 	
 	bombDef = new b2BodyDef;
 	bombDef.type = b2Body.b2_dynamicBody;

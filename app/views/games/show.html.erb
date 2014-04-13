@@ -1,5 +1,5 @@
 ﻿<body onload="init();">
-	<center><canvas id="canvas" width="1200" height="550" style="background-color:#424242;" ></canvas></center>
+	<center><canvas id="canvas" width="1200" height="550" style="background-color:#086A87;" ></canvas></center>
 </body>
  
 <script type="text/javascript">
@@ -20,6 +20,7 @@
 			if(pause == true) {
 				time1=new Date();
 				pause = false;
+				stopRefresh = false;
 			}
 		}
 	} 
@@ -42,6 +43,7 @@
 	var gameStart = false; 
 	var gamePass = false; 
 	var gameOver = false;
+	var stopRefresh = false;
 	var finished = false;
 	var pause = false;
 	var uploaded = false;
@@ -53,13 +55,16 @@
 		var world = new b2World(new b2Vec2(0, 5),  true );
 		var worldSize = new b2Vec2(wwidth, wheight);
 
+		//----------------------------------
 		//create ground
+		// png 1200 x 10 
 		fixDef.shape = new b2PolygonShape;
 		//define horizon
-		fixDef.shape.SetAsBox(worldSize.x / scale, 0.4);
-		bodyDef.position.Set(0, worldSize.y / scale);
+		fixDef.shape.SetAsBox(worldSize.x / scale, 0.7);
+		bodyDef.userData=document.getElementById("border");
+		bodyDef.position.Set(worldSize.x / (scale * 2), worldSize.y / scale);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
-		bodyDef.position.Set(0, 0);
+		bodyDef.position.Set(worldSize.x / (scale * 2), 0);
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 
 		CreateEpisodes<%= @game.season%>e<%= @game.episode%>(world);
@@ -96,7 +101,7 @@
 				//------------------------------
 				// hit together
 				if(uda.id == "bomb" && udb) {
-					if(udb.id != "bomb" && udb.id != "plane"){
+					if(udb.id != "bomb" && ( udb.id != "plane" || udb.id != "r-plane") ){
 						ba.SetActive(false)
 						ba.SetUserData(document.getElementById("b-bomb"))
 						if(udb.id == "t34") {
@@ -105,7 +110,7 @@
 						}
 					}
 				}
-				else if(uda.id == "plane" && udb) { 
+				else if(( uda.id == "plane" || uda.id == "r-plane") && udb) { 
 					if(udb.id != "bomb") outOfControl = true;
 				}
 				
@@ -115,7 +120,7 @@
 					ba.SetActive(false)
 					ba.SetUserData(document.getElementById("b-bomb"))
 				}
-				else if(uda.id == "plane" && !udb) { 
+				else if(( uda.id == "plane" || uda.id == "r-plane") && !udb) { 
 					outOfControl = true;
 				}
 			}
@@ -125,23 +130,35 @@
     //update
 		
     function update() {
+
+		if(stopRefresh) return
 		
 		if(pause && !gameOver) {
+			stopRefresh = true;
+			ctx.save()
+			ctx.fillStyle = "rgba(55,33,33,0.5)";
+			ctx.fillRect(200,50,800,400);
+			ctx.restore()
 			ctx.font="40px Georgia";
-			ctx.fillText(gameTitle, 330, 100);
+			ctx.fillText(gameTitle, 360, 100);
 			ctx.font="25px Georgia";
-			ctx.fillText(gameIntro, 330, 150);
-			ctx.fillText("任务：" + gameTask, 330, 200);
-			ctx.fillText("Hit 1 to start/pause/resume", 360, 260);
+			ctx.fillText("介绍：" + gameIntro, 280, 150);
+			ctx.fillText("任务：" + gameTask, 280, 200);
+			ctx.fillText("按数字‘1’键开始游戏", 360, 260);
 			ctx.font="20px Georgia";
-			ctx.fillText("Hit LEFT/RIGHT to speed up/down", 360, 350);
-			ctx.fillText("Press UP/DOWN to lift/dive", 360, 380);
-			ctx.fillText("Hit SPACE to drop bomb", 360, 410);
+			ctx.fillText("按‘←’ 减一档动力，‘→’ 加一档动力", 360, 330);
+			ctx.fillText("按住‘↑’ 俯冲，‘↓’ 拉升", 360, 360);
+			ctx.fillText("按一次空格键，投放一枚炸弹", 360, 390);
+			ctx.fillText("按一次‘A’键，飞机翻滚180度", 360, 420);
 			return;
 		}
 		if(finished) return;
 		if(plane.GetPosition().x > 120) {
 			gameOver = true
+		}
+		if(plane.GetPosition().x < 0) {
+			gameOver = true
+			gamePass = false
 		}
 		if(gameOver) {
 			if(gamePass) {
@@ -178,7 +195,14 @@
 		world.Step(1 / 60, 10, 10);
 		world.DrawDebugData();
 		
-		ctx.fillText("Plane PowerForce: " + powerForce + "N", 3, 40);
+		ctx.save();
+		ctx.font="20px Georgia";
+		ctx.fillText("动力：", 50, 40) 
+		ctx.fillText("炸弹：", 50, 80) 
+		ctx.font="40px Georgia";
+		ctx.fillText(" "+ 100*powerForce/maxPower + "%", 100, 45);
+		ctx.fillText(" "+ weaponCount, 100, 85);
+		ctx.restore();
 		
 		for (i=0;i< btrail.length;i++) {
 			ctx.save();
@@ -228,7 +252,11 @@
 		<%= image_tag "pilot_pics/b-t34.png", id: "b-t34" %> 
 		
 		<%= image_tag "pilot_pics/stuka_s.png", id: "plane" %>
+		<%= image_tag "pilot_pics/r-stuka_s.png", id: "r-plane" %>
+		<%= image_tag "pilot_pics/p-stuka_s.png", id: "p-plane" %>
+		<%= image_tag "pilot_pics/m-stuka_s.png", id: "m-plane" %>
 		
+		<%= image_tag "pilot_pics/border.png", id: "border" %>
 		<%= image_tag "pilot_pics/basket.png", id: "basket" %>
 		<%= image_tag "pilot_pics/table.png", id: "table" %>
 		<%= image_tag "pilot_pics/chair.png", id: "chair" %>

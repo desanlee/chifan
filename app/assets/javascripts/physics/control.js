@@ -3,7 +3,7 @@
 //keyboard
 //--------------------------
 
-var keyL, keyR, keyU, keyD, keySpace, key0, key1;
+var keyL, keyR, keyU, keyD, keySpace, key0, key1, keyA;
 document.addEventListener("keydown", function(e){			
 	switch (e.keyCode) {
 		case 37 :
@@ -20,6 +20,8 @@ document.addEventListener("keydown", function(e){
 			key0=true; break;
 		case 49:
 			key1=true; break;
+		case 65:
+			keyA=true; break;
 	}
 }); 
 document.addEventListener("keyup", function(e){			
@@ -38,6 +40,8 @@ document.addEventListener("keyup", function(e){
 			key0=false; break;
 		case 49:
 			key1=false; break;
+		case 65:
+			keyA=false; break;
 	}
 });
 

@@ -1,20 +1,24 @@
-﻿<h2>Indoor Pilot (屋里的飞行员)</h2><br>
-<center class="container">
+﻿<center class="container">
+<%= image_tag "pilot_pics/logo.jpg" %>
+&nbsp <br>&nbsp<br> 
 <table class="table span10">
 	<tr>
 		<th>关卡</th>
-		<th>关卡详细信息</th>
-		<th>三甲排行榜</th>
-		<th></th>
+		<th>详细信息</th>
+		<th>排行榜</th>
 	</tr>
 <% @games.each do |game| %>
   <tr>
     <td>
-			Season<%= game.season %><br>
-			Episode<%= game.episode %>
+			<h4><%= game.title %></h4>
+			第<%= game.season %>篇，第<%= game.episode %>关<br>
+			<%= link_to 'Play!', game %>
+			<% if current_user.email == "ji.x.li@oracle.com"%>
+				<%= link_to 'Edit', edit_game_path(game) %>
+				<%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% end %>
 		</td>
-    <td>
-			标题：<%= game.title %><br>
+    <td><br>
 			介绍：<%= game.info %><br>
 			任务：<%= game.task %>
 		</td>
@@ -31,13 +35,6 @@
 				<% end %>
 			</ul>
 		<% end %>
-		</td>
-    <td>
-			<%= link_to 'Play!', game %>
-			<% if current_user.email == "ji.x.li@oracle.com"%>
-				<%= link_to 'Edit', edit_game_path(game) %>
-				<%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %>
-			<% end %>
 		</td>
   </tr>
 <% end %>
