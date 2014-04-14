@@ -132,3 +132,13 @@ function CreateDroplight(world, position) {
 	])	
 	droplight.CreateFixture(fixWood);
 }
+
+function CreateWall(world, pisition) {
+}
+
+function CreateDoor(world, position) {
+}
+
+function CreateWindow(world, position) {
+}
+

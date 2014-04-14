@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   
   def name
 		if self.nickname == nil or self.nickname == ""
-			return self.email
+			return self.email.chomp("@oracle.com")
 		else
 			return self.nickname 
 		end
@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def remaining fangroup
-		return self.inchargeamount(fangroup) - self.lunchamount(fangroup) 
+		return ( self.inchargeamount(fangroup) - self.lunchamount(fangroup) ).round 
 	end
 	
 end

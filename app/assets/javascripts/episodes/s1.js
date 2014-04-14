@@ -1,45 +1,21 @@
 function CreateEpisodes1e1(world) {	
-  weaponCount = 5
+  weaponCount = 0
   hitTarget = 0
-
-	BuildTarget(world, new b2Vec2(70, 54.5))	
-	BuildTarget(world, new b2Vec2(80, 54.5))
-	BuildTarget(world, new b2Vec2(90, 54.5))
-	BuildTarget(world, new b2Vec2(100, 54.5))
-	BuildTarget(world, new b2Vec2(110, 54.5))
-	BuildTarget(world, new b2Vec2(60, 54.5))
-	BuildTarget(world, new b2Vec2(50, 54.5))
 }
 
 function CreateEpisodes1e2(world) {	
-  weaponCount = 9
-  hitTarget = 6
-
-	BuildTarget(world, new b2Vec2(70, 54.5))	
-	BuildTarget(world, new b2Vec2(80, 54.5))
-	BuildTarget(world, new b2Vec2(90, 54.5))
-	BuildTarget(world, new b2Vec2(100, 54.5))
-	BuildTarget(world, new b2Vec2(110, 54.5))
-	BuildTarget(world, new b2Vec2(60, 54.5))
-	BuildTarget(world, new b2Vec2(50, 54.5))
-}
-
-function CreateEpisodes1e3(world) {	
-  weaponCount = 4
-  hitTarget = 3
-
-	CreateBasket(world, new b2Vec2(70, 52))
-	CreateBasket(world, new b2Vec2(70, 46))
-	CreateBasket(world, new b2Vec2(70, 40))
+  weaponCount = 0
+  hitTarget = 0
 	
-	CreateBasket(world, new b2Vec2(76, 53))
-	CreateBasket(world, new b2Vec2(76, 47))
+	CreateTable(world, new b2Vec2(55, 53))
 	
-	CreateBasket(world, new b2Vec2(82, 53))
+	CreateBasket(world, new b2Vec2(55, 34))
+	CreateBasket(world, new b2Vec2(61, 34))
+	CreateBasket(world, new b2Vec2(57, 28))
+	CreateBasket(world, new b2Vec2(58, 22))
 	
-	BuildTarget(world, new b2Vec2(70, 36))
-	BuildTarget(world, new b2Vec2(76, 42.5))
-	BuildTarget(world, new b2Vec2(82, 48))
-	BuildTarget(world, new b2Vec2(88, 54.5))
-
+	CreateChair(world, new b2Vec2(30, 55))
+	
+	CreateDroplight(world, new b2Vec2(30, 10))
+	CreateDroplight(world, new b2Vec2(90, 10))
 }
