@@ -153,12 +153,8 @@
 			return;
 		}
 		if(finished) return;
-		if(plane.GetPosition().x > 120) {
+		if(plane.GetPosition().x > 120 || plane.GetPosition().x < 0) {
 			gameOver = true
-		}
-		if(plane.GetPosition().x < 0) {
-			gameOver = true
-			gamePass = false
 		}
 		if(gameOver) {
 			if(gamePass) {

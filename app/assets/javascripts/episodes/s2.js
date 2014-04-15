@@ -1,3 +1,6 @@
+﻿/******************************************
+关卡：平飞轰炸
+*******************************************/
 function CreateEpisodes2e1(world) {	
   weaponCount = 9
   hitTarget = 6
@@ -16,7 +19,8 @@ function CreateEpisodes2e1(world) {
 	BuildTarget(world, new b2Vec2(60, 54.5))
 	
 }
-
+/******************************************
+*******************************************/
 function CreateEpisodes2e2(world) {	
   weaponCount = 4
   hitTarget = 3
@@ -40,7 +44,8 @@ function CreateEpisodes2e2(world) {
 	BuildTarget(world, new b2Vec2(88, 54.5))
 
 }
-
+/******************************************
+*******************************************/
 function CreateEpisodes2e3(world) {
   weaponCount = 5
   hitTarget = 2
@@ -65,7 +70,8 @@ function CreateEpisodes2e3(world) {
 	BuildTarget(world, new b2Vec2(100, 54.5))
 	BuildTarget(world, new b2Vec2(55, 36.5))
 }
-
+/******************************************
+*******************************************/
 function CreateEpisodes2e4(world) {
   weaponCount = 2
   hitTarget = 1
@@ -89,7 +95,8 @@ function CreateEpisodes2e4(world) {
 		
 	BuildTarget(world, new b2Vec2(57, 54.5))	
 }
-
+/******************************************
+*******************************************/
 function CreateEpisodes2e5(world) {
   weaponCount = 6
   hitTarget = 2

@@ -1,8 +1,9 @@
-﻿<div class="span badge badge-info">
+﻿<div class="span2 badge badge-info margin_mini">
 		<center>
 			<%= link_to episode.title, episode, class: "btn"%>
-			<% if episode.mybestscore(current_user) != nil %><i class="icon-ok"></i>
-			<% else %><label class="label label-mini label-warning">new</label><% end %>
+			<% if episode.mybestscore(current_user) == nil %>
+				<label class="label label-mini label-warning">new</label>
+			<% end %>
 		</center><br>
 		<% if episode.scores.count != 0 then %>
 			<% tmp = 0 %>
