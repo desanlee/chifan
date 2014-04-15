@@ -133,10 +133,37 @@ function CreateDroplight(world, position) {
 	droplight.CreateFixture(fixWood);
 }
 
-function CreateWall(world, pisition) {
+function CreateWall(world, position) {
+	//png 550 x 40
+	wallDef = new b2BodyDef;
+	wallDef.type = b2Body.b2_staticBody;
+	wallDef.userData = document.getElementById("wall")
+	
+	wallDef.position.SetV(position)	
+	wall = world.CreateBody(wallDef)
+	
+	fixWood.shape = new b2PolygonShape;
+	fixWood.shape.SetAsBox(2, 27.5);
+	wall.CreateFixture(fixWood);
 }
 
 function CreateDoor(world, position) {
+	//png 550 x 40, wall part is 200 x 40, door part is 350 x 160
+	doorDef = new b2BodyDef;
+	doorDef.type = b2Body.b2_staticBody;
+	doorDef.userData = document.getElementById("door")
+	
+	doorDef.position.SetV(position)	
+	door = world.CreateBody(doorDef)
+	
+	fixWood.shape = new b2PolygonShape;
+	fixWood.shape.SetAsArray([
+		new b2Vec2(-2, -27.5),
+		new b2Vec2(-2, -7.5),
+		new b2Vec2(2, -7.5),
+		new b2Vec2(2, -27.5)
+	])
+	door.CreateFixture(fixWood);
 }
 
 function CreateWindow(world, position) {

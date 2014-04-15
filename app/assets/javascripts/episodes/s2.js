@@ -2,19 +2,29 @@ function CreateEpisodes2e1(world) {
   weaponCount = 9
   hitTarget = 6
 
+	plane = CreatePlane(world, new b2Vec2(5, 15))
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
+	BuildTarget(world, new b2Vec2(50, 54.5))
 	BuildTarget(world, new b2Vec2(70, 54.5))	
 	BuildTarget(world, new b2Vec2(80, 54.5))
 	BuildTarget(world, new b2Vec2(90, 54.5))
 	BuildTarget(world, new b2Vec2(100, 54.5))
 	BuildTarget(world, new b2Vec2(110, 54.5))
 	BuildTarget(world, new b2Vec2(60, 54.5))
-	BuildTarget(world, new b2Vec2(50, 54.5))
+	
 }
 
 function CreateEpisodes2e2(world) {	
   weaponCount = 4
   hitTarget = 3
-
+	plane = CreatePlane(world, new b2Vec2(5, 15))
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
 	CreateBasket(world, new b2Vec2(70, 52))
 	CreateBasket(world, new b2Vec2(70, 46))
 	CreateBasket(world, new b2Vec2(70, 40))
@@ -34,7 +44,11 @@ function CreateEpisodes2e2(world) {
 function CreateEpisodes2e3(world) {
   weaponCount = 5
   hitTarget = 2
-
+	plane = CreatePlane(world, new b2Vec2(5, 15))
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
 	CreateBasket(world, new b2Vec2(15, 53.5))
 	CreateBasket(world, new b2Vec2(16, 46))
 	CreateBasket(world, new b2Vec2(45, 35))
@@ -55,7 +69,11 @@ function CreateEpisodes2e3(world) {
 function CreateEpisodes2e4(world) {
   weaponCount = 2
   hitTarget = 1
-
+	plane = CreatePlane(world, new b2Vec2(5, 15))
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
 	CreateBasket(world, new b2Vec2(50, 52))
 	CreateBasket(world, new b2Vec2(47, 46))
 	CreateBasket(world, new b2Vec2(53, 46))
@@ -75,7 +93,11 @@ function CreateEpisodes2e4(world) {
 function CreateEpisodes2e5(world) {
   weaponCount = 6
   hitTarget = 2
-
+	plane = CreatePlane(world, new b2Vec2(5, 15))
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
 	CreateTable(world, new b2Vec2(50, 55))
 	CreateTable(world, new b2Vec2(50, 37))
 	

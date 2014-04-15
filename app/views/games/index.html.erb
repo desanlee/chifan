@@ -5,96 +5,31 @@
 
 <div class="container">
 	<table class="table span10">
-	<tr><td><h3>第一篇，飞行练习</h3></td><td>初次接触飞行的人，将在第一篇中练习控制飞机</td></tr>
-	<tr><td></td><td>
-		<% @games.each do |g|%>
-			<% if g.season == 1 %>
-				<div class="btn-group">
-					<% if g.mybestscore(current_user) != nil then %>
-				  	<a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-				  <% else %>
-				  	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				  <% end %>
-				    <%= g.title %>
-				    <span class="caret"></span>
-				  </a>
-				  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-				  	<% if g.scores.count != 0 then %>
-				  		<center>成绩排行榜：
-							<% tmp = 0 %>
-							<% g.scores.each do |s|%>
-								<% tmp = tmp + 1
-								break if tmp > 3 %>
-								<li><%= s.record %>秒，<%= s.user.name %></li>
-							<% end %>
-						<% end %>
-						<% if g.mybestscore(current_user) != nil then %>
-							<li class="divider"></li>
-				  		我的最好成绩：
-							<li><%= g.mybestscore(current_user).record %>秒</li></center>
-						<% end %>
-				    <li class="divider"></li>
-				    <center><li>
-				    	<%= link_to "开始游戏", g %>
-				    	<% if current_user.email == "ji.x.li@oracle.com"%>
-								<%= link_to 'Edit', edit_game_path(g) %>
-								<%= link_to 'Destroy', g, method: :delete, data: { confirm: 'Are you sure?' } %>
-							<% end %>
-						</li></center>
-				  </ul>
-				</div>
+	<tr><td><h3>第1篇，飞行练习</h3></td><td>
+		初次接触飞行的人，将在第一篇中练习控制飞机。这不是件简单得事情。<br>
+		
+	</td></tr>
+	<tr><td colspan="2">
+		<% @games.each do |episode|%>
+			<% if episode.season == 1 %>
+				<%= render partial: "episode", locals: { episode: episode } %>
 			<% end %>
 		<% end %>
 	</td></tr>
-	<tr><td></td><td></td></tr>
+	<tr><td colspan="2"></td></tr>
 
-	<tr><td><h3>第二篇，目标T34</h3></td><td>飞机开始带弹飞行，击毁目标坦克</td></tr>
-	<tr><td></td><td>
-		<% @games.each do |g|%>
-			<% if g.season == 2 %>
-
-				<div class="btn-group">
-					<% if g.mybestscore(current_user) != nil then %>
-				  	<a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-				  <% else %>
-				  	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-				  <% end %>
-				    <%= g.title %>
-				    <span class="caret"></span>
-				  </a>
-				  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
-				  	<% if g.scores.count != 0 then %>
-				  		<center>成绩排行榜：
-							<% tmp = 0 %>
-							<% g.scores.each do |s|%>
-								<% tmp = tmp + 1
-								break if tmp > 3 %>
-								<li><%= s.record %>秒，<%= s.user.name %></li>
-							<% end %>
-						<% end %>
-						<% if g.mybestscore(current_user) != nil then %>
-							<li class="divider"></li>
-				  		我的最好成绩：
-							<li><%= g.mybestscore(current_user).record %>秒</li></center>
-						<% end %>
-				    <li class="divider"></li>
-				    <center><li>
-				    	<%= link_to "开始游戏", g %>
-				    	<% if current_user.email == "ji.x.li@oracle.com"%>
-								<%= link_to 'Edit', edit_game_path(g) %>
-								<%= link_to 'Destroy', g, method: :delete, data: { confirm: 'Are you sure?' } %>
-							<% end %>
-						</li></center>
-				  </ul>
-				</div>
-				
+	<tr><td><h3>第2篇，目标T34</h3></td><td>飞机开始带弹飞行，击毁目标坦克</td></tr>
+	<tr><td colspan="2">
+		<% @games.each do |episode|%>
+			<% if episode.season == 2 %>
+				<%= render partial: "episode", locals: { episode: episode } %>
 			<% end %>
 		<% end %>
 	</td></tr>
-	<tr><td></td><td></td></tr>
+	<tr><td colspan="2"></td></tr>
 
-	<tr><td><h3>第三篇，空中格斗</h3></td><td>任务难度升级，不但要击毁目标坦克，还要躲避前来拦截的战斗机</td></tr>
-	<tr><td></td><td><div class="btn btn-primary btn-alert">COMING SOON! 翘首以盼!</div></td></tr>
+	<tr><td><h3>第3篇，空中格斗</h3></td><td>任务难度升级，不但要击毁目标坦克，还要躲避前来拦截的战斗机</td></tr>
+	<tr><td colspan="2"><center><div class="">COMING SOON! 翘首以盼!</div></center></td></tr>
 	<tr><td></td><td></td></tr>
 	</table>
 </div>

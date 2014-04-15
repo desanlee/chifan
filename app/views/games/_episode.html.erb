@@ -1,0 +1,23 @@
+﻿<div class="span badge badge-info">
+		<center>
+			<%= link_to episode.title, episode, class: "btn"%>
+			<% if episode.mybestscore(current_user) != nil %><i class="icon-ok"></i>
+			<% else %><label class="label label-mini label-warning">new</label><% end %>
+		</center><br>
+		<% if episode.scores.count != 0 then %>
+			<% tmp = 0 %>
+			<% episode.scores.each do |s|%>
+				<% tmp = tmp + 1
+				break if tmp > 3 %>
+				<li>第<%= tmp%>名：<%= s.record %>秒，<%= s.user.name %></li>
+			<% end %>
+		<% end %>
+		<% if episode.mybestscore(current_user) != nil then %><br>
+			<li>我的成绩：<%= episode.mybestscore(current_user).record %>秒</li>
+		<% end %>
+		<br>
+		<% if current_user.email == "ji.x.li@oracle.com"%>
+			<%= link_to 'Edit', edit_game_path(episode) %>
+			<%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %>
+		<% end %>
+</div>

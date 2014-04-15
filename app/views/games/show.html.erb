@@ -37,6 +37,8 @@
 	ctx.font="20px Georgia";
 	ctx.fillStyle="white"
 
+	var plane;
+	
 	var hitTarget = 0;
 	var outOfControl = false;
 
@@ -68,8 +70,6 @@
 		world.CreateBody(bodyDef).CreateFixture(fixDef);
 
 		CreateEpisodes<%= @game.season%>e<%= @game.episode%>(world);
-		var plane = CreatePlane(world, new b2Vec2(2, 15))
-		
 		
 		//////////////////////////////////////////////////////////
 		//setup debug draw
@@ -262,6 +262,9 @@
 		<%= image_tag "pilot_pics/chair.png", id: "chair" %>
 		<%= image_tag "pilot_pics/tablelamp.png", id: "tablelamp" %>
 		<%= image_tag "pilot_pics/droplight.png", id: "droplight" %>
+		
+		<%= image_tag "pilot_pics/wall.png", id: "wall" %>
+		<%= image_tag "pilot_pics/door.png", id: "door" %>
 		
 	</div>	
 </html>
