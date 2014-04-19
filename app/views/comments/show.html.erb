@@ -1,0 +1,25 @@
+<% if current_user.email == "ji.x.li@oracle.com"%>
+	<p id="notice"><%= notice %></p>
+
+	<p>
+		<b>Lunch:</b>
+		<%= @comment.lunch_id %>
+	</p>
+
+	<p>
+		<b>User:</b>
+		<%= @comment.user_id %>
+	</p>
+
+	<p>
+		<b>Content:</b>
+		<%= @comment.content %>
+	</p>
+
+
+	<%= link_to 'Edit', edit_comment_path(@comment) %> |
+	<%= link_to 'Back', comments_path %>
+
+<% else %>
+<h2>Not Authorized</h2>
+<% end %>

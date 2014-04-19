@@ -2,11 +2,27 @@ class LunchsController < ApplicationController
 
 	def index
 		session[:tab] = "lunchs"
+		
+		if params[:weekday]
+			session[:weekday] = params[:weekday]
+		end
+		
+		if session[:weekday]
+			weekday = session[:weekday].to_i
+		else
+			weekday = Time.now.to_a[6]
+			session[:weekday] = weekday.to_s
+		end
+		
+		Time.now.beginning_of_week
+		Time.now.end_of_week
+		
 		@fangroups = current_user.fangroups
 		@attrelationship = Attrelationship.new
 		@lunches = Array.new
+		@comment = Comment.new
 		@fangroups.each do |fg|
-			@lunches << fg.todaylunch
+			@lunches << fg.weekdaylunch(weekday)
 		end
 		
 	end

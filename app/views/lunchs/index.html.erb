@@ -1,5 +1,25 @@
 <div class="container">
-	<h2>今日饭局，<%= Time.now.strftime('%Y-%m-%d') %></h2><br>
+
+		<div class="span4">
+			<h2>本周饭局，<%= Time.now.beginning_of_week.strftime('%m-%d') %> 到 <%= Time.now.end_of_week.strftime('%m-%d') %> </h2>
+		</div>
+		<div class="span7">
+			<ul class="nav nav-pills" id="myWeekday">
+				<% 7.times do |num|%>
+					<% dayname = "星期"+ (num + 1).to_s %>
+					<li <% if session[:weekday] ==  (num + 1).to_s %> class="active" <% end %> >
+						<%= link_to dayname, 
+							{ controller: "lunchs",
+								action: "index",
+								weekday: (num + 1).to_s 
+							}
+						%>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+
+
 	<table class="table">
 		<% @lunches.each do |l| %>
 			<% @lunch = l %>

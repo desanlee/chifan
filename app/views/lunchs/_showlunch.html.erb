@@ -4,29 +4,79 @@
 	<td width="30%">
 		<div class="span">
 			<h3><%= @lunch.fangroup.nickname if @lunch.fangroup != nil %></h3><br>
+			饭局日期：<%= @lunch.created_at.strftime('%m-%d-星期%w') %><br>
 			报名人数：<%= @lunch.participants.count %> 人<br>
 			值班团长：<%= @lunch.fangroup.user.name %>
-		</div>
-	</td>	
-	<!------------------------------------------------------------>
-	<td>
-		<% @lunch.attrelationships.each do |ar|%>
-			<div class="label label-success span margin_mini">
-				<%= ar.user.name%><br>
-				<%= (ar.created_at.to_time + 8.hours).strftime('%H点%M分')%>
-			</div>
-		<% end %>
-	</td>
-	<!------------------------------------------------------------>
-	<td width="16%">
-		<% if @lunch.checkedout? %>
+			<hr>
+			<% if @lunch.checkedout? %>
 				结账花费：<%= @lunch.expense %>元
 				<% if @lunch.expense != nil and @lunch.participants.count != 0 %>
 					<br>人均消费：<%= (@lunch.expense.to_f * 10 / @lunch.participants.count)/10.0 %>元
 				<% end %>
-		<% else %>
+			<% else %>
 				团长还没结账
+			<% end %>
+					<% if @lunch.fangroup.user == current_user%>
+			<a href="#EModal<%=@lunch.id%>" data-toggle="modal"><i class="icon-pencil"></i>
+				<% if @lunch.checkedout? %>
+					改账
+				<% else %>
+					结账
+				<% end %>
+			</a></li>
+			
+			<!-- Modal for Check Out-->
+			<div id="EModal<%=@lunch.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h2 id="myModalLabel">结账</h2>
+				</div>
+				<div class="padding_all_deep container">
+				<%= form_for(@lunch) do |l| %>
+					<% if @lunch.checkedout? %>
+							修改账单金额：
+							<% else %>
+								结账：
+							<% end %>
+							<%= l.text_field :expense %>元
+							<%= l.hidden_field :user_id, value: current_user.id %>
+							<%= l.submit "OK", class: "btn" %>
+						<% end %>
+				</div>
+			</div>
+
 		<% end %>
+		</div>
+	</td>	
+	<!------------------------------------------------------------>
+	<td>
+		<div>
+			<% if @lunch.attrelationships.count != 0 %>
+				<% @lunch.attrelationships.each do |ar|%>
+					<div class="label label-success span margin_mini">
+						<%= ar.user.name%><br>
+						<%= (ar.created_at.to_time + 8.hours).strftime('%H点%M分')%>
+					</div>
+				<% end %>
+			<% else %>
+				<center><h4><br>无人报名！<br></h4></center>
+			<% end %>
+		</div>
+		<div class="span7">
+		
+		<br><hr>
+		<ul >
+			<% @lunch.comments.each do |c| %>
+			<li>
+				<label class="label"><%= c.user.name%></label>: <%= c.content %> 
+				<% if c.user == current_user %>
+					<%= link_to 'x', c, method: :delete, data: { confirm: 'Are you sure?' } %>
+				<% end %>
+			</li>
+			<% end %>
+		</ul>
+			<%= render 'comment_form' %>
+		</div>
 	</td>
 	<!------------------------------------------------------------>
 	<td width="10%">
@@ -49,38 +99,5 @@
 			<% end %>
 		<% end %>
 	</td>
-	<!------------------------------------------------------------>
-	<td width="8%">
-		<% if @lunch.fangroup.user == current_user%>
-			<a href="#EModal<%=@lunch.id%>" data-toggle="modal"><i class="icon-pencil"></i>
-				<% if @lunch.checkedout? %>
-					改账
-				<% else %>
-					结账
-				<% end %>
-			</a></li>
-		<% end %>
-	</td>
-	<!------------------------------------------------------------>
 	<% end %>
 </tr>
-
-<!-- Modal for Check Out-->
-<div id="EModal<%=@lunch.id%>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		<h2 id="myModalLabel">结账</h2>
-	</div>
-	<div class="padding_all_deep container">
-	<%= form_for(@lunch) do |l| %>
-		<% if @lunch.checkedout? %>
-				修改账单金额：
-				<% else %>
-					结账：
-				<% end %>
-				<%= l.text_field :expense %>元
-				<%= l.hidden_field :user_id, value: current_user.id %>
-				<%= l.submit "OK", class: "btn" %>
-			<% end %>
-	</div>
-</div>

@@ -1,5 +1,8 @@
 Chifan::Application.routes.draw do
 
+  resources :comments
+
+
 	get "scores/submit"
   resources :scores
 

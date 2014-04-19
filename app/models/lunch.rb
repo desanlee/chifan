@@ -3,7 +3,8 @@ class Lunch < ActiveRecord::Base
   
   has_many :attrelationships, foreign_key: "lunch_id", class_name:  "Attrelationship", dependent: :destroy
   has_many :participants, through: :attrelationships, source: :user
-  
+  has_many :comments, class_name: "Comment"
+	
   belongs_to :fangroup, class_name: "Fangroup" 
 	belongs_to :user, class_name: "User"
   

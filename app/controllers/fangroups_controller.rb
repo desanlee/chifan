@@ -19,6 +19,13 @@ class FangroupsController < ApplicationController
 		
 		redirect_to :back
 	end
+
+  def update
+    @fangroup = Fangroup.find(params[:id])
+    @fangroup.update_attributes(params[:fangroup])
+		
+		redirect_to :back
+  end
 	
 	def destroy
 		@fangroup = Fangroup.find(params[:id])

@@ -33,21 +33,19 @@ class Fangroup < ActiveRecord::Base
 		return ia
 	end
   
-  def todaylunch
-  	if self.lunches.count != 0 then
-  	  if !self.lunches.last.today? then
-  	  	  newlunch = Lunch.new
-  	  	  newlunch.fangroup_id = self.id
-  	  	  newlunch.save
-  	  	  return newlunch
-  	  else
-  	  	  return self.lunches.last
-  	  end
-  	else
+  def weekdaylunch weekday
+		start_date = Time.now.beginning_of_week + (weekday-1).days
+		finish_date = start_date + 1.day
+		
+		lunch = Lunch.find(:first, conditions: ["fangroup_id == ? and created_at >= ? AND created_at < ?", self.id, start_date, finish_date] )
+  	if !lunch then
   		newlunch = Lunch.new
   	 	newlunch.fangroup_id = self.id
+			newlunch.created_at = start_date
   	 	newlunch.save
   	  return newlunch
+		else
+			return lunch
   	end
   end
   
