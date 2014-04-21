@@ -112,13 +112,13 @@ function ControlFly(world, plane){
 	
 	//----------------------------------------------
 	// add power, according to settings and plane angle
-	if(keyR && powerForce < maxPower) {
-		powerForce += 4;
-		keyR = false;
+	if(keyR && powerForce < maxPower + 4) {
+		powerForce += 0.1;
+		//keyR = false;
 	}
 	else if(keyL && powerForce > minPower) {
-		powerForce -= 4;
-		keyL = false;
+		powerForce -= 0.1;
+		//keyL = false;
 	}
 	plane.ApplyForce(PowerForce(powerForce), mscenter);
 	

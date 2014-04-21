@@ -196,7 +196,7 @@
 		ctx.fillText("动力：", 50, 40) 
 		ctx.fillText("炸弹：", 50, 80) 
 		ctx.font="40px Georgia";
-		ctx.fillText(" "+ 100*powerForce/maxPower + "%", 100, 45);
+		ctx.fillText(" "+ Math.round(100*powerForce/maxPower) + "%", 100, 45);
 		ctx.fillText(" "+ weaponCount, 100, 85);
 		ctx.restore();
 		
