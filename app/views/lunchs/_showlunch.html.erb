@@ -79,7 +79,8 @@
 		</div>
 	</td>
 	<!------------------------------------------------------------>
-	<td width="10%">
+	<td width="18%">
+		我有余额：<%= current_user.remaining @lunch.fangroup %>元<br><br>
 		<% if !@lunch.checkedout? %>
 			<% @attrelationship = @lunch.attrelationship current_user %>
 			<% if @attrelationship != nil %>
@@ -97,6 +98,8 @@
 					class: "btn btn-primary btn-success"
 				%>
 			<% end %>
+		<% else %>
+			<p class="label label-warning">点餐已结束<br>不能报名了<br>明日请早您</p>
 		<% end %>
 	</td>
 	<% end %>
