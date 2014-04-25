@@ -20,6 +20,7 @@ function CreateEpisodes2e1(world) {
 	
 }
 /******************************************
+俯冲轰炸
 *******************************************/
 function CreateEpisodes2e2(world) {	
   weaponCount = 4
@@ -45,6 +46,7 @@ function CreateEpisodes2e2(world) {
 
 }
 /******************************************
+分散的目标
 *******************************************/
 function CreateEpisodes2e3(world) {
   weaponCount = 5
@@ -71,6 +73,7 @@ function CreateEpisodes2e3(world) {
 	BuildTarget(world, new b2Vec2(55, 36.5))
 }
 /******************************************
+掩体中的T34
 *******************************************/
 function CreateEpisodes2e4(world) {
   weaponCount = 2
@@ -96,6 +99,7 @@ function CreateEpisodes2e4(world) {
 	BuildTarget(world, new b2Vec2(57, 54.5))	
 }
 /******************************************
+不同高度的敌人
 *******************************************/
 function CreateEpisodes2e5(world) {
   weaponCount = 6
@@ -109,7 +113,37 @@ function CreateEpisodes2e5(world) {
 	CreateTable(world, new b2Vec2(50, 37))
 	
 	
-	BuildTarget(world, new b2Vec2(50, 54.5))	
-	BuildTarget(world, new b2Vec2(50, 36.5))
+	BuildTarget(world, new b2Vec2(55, 54.5))	
+	BuildTarget(world, new b2Vec2(55, 36.5))
 	BuildTarget(world, new b2Vec2(50, 18.5))
+}
+
+/******************************************
+挑战一下高难度
+*******************************************/
+function CreateEpisodes2e6(world) {
+  weaponCount = 6
+  hitTarget = 3
+	
+	
+	CreateWall(world, new b2Vec2(0, 27.5))
+	CreateDoor(world, new b2Vec2(120, 27.5))
+	
+	CreateTable(world, new b2Vec2(25, 36))
+	CreateTable(world, new b2Vec2(30, 55))
+	//CreateTable(world, new b2Vec2(45, 36))
+	CreateTable(world, new b2Vec2(60, 55))
+	CreateTable(world, new b2Vec2(75, 36))
+	
+	plane = CreatePlane(world, new b2Vec2(5, 45))
+	
+	CreateBasket(world, new b2Vec2(80, 47))
+	CreateBasket(world, new b2Vec2(80, 53))
+	
+	CreateBasket(world, new b2Vec2(63, 36.5))
+	CreateBasket(world, new b2Vec2(70, 18.5))
+	
+	BuildTarget(world, new b2Vec2(28, 36))
+	BuildTarget(world, new b2Vec2(48, 54))	
+	BuildTarget(world, new b2Vec2(68, 54))
 }

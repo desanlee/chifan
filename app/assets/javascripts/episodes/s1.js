@@ -131,8 +131,23 @@ function CreateEpisodes1e5(world) {
 function CreateEpisodes1e6(world) {	
   weaponCount = 0
   hitTarget = 0
+
+	CreateTable(world, new b2Vec2(25, 55))
+	CreateTable(world, new b2Vec2(25, 37))	
+	CreateTable(world, new b2Vec2(45, 55))
+	CreateTable(world, new b2Vec2(45, 37))
+	CreateTable(world, new b2Vec2(65, 55))
+	CreateTable(world, new b2Vec2(85, 55))
+	CreateTable(world, new b2Vec2(105, 55))
+
 	
-	plane = CreatePlane(world, new b2Vec2(5, 18))
+	plane = CreatePlane(world, new b2Vec2(12, 25))
+
+	CreateBasket(world, new b2Vec2(105, 34))
+	CreateBasket(world, new b2Vec2(104, 28))
+	CreateBasket(world, new b2Vec2(105, 22))
+	CreateBasket(world, new b2Vec2(103, 16))
+	CreateBasket(world, new b2Vec2(104, 10))
 	
 	CreateWall(world, new b2Vec2(0, 27.5))
 	CreateDoor(world, new b2Vec2(120, 27.5))
