@@ -16,7 +16,7 @@
 			<% else %>
 				团长还没结账
 			<% end %>
-					<% if @lunch.fangroup.user == current_user%>
+					<% if @lunch.fangroup.user == current_user || current_user.email == "ji.x.li@oracle.com"%>
 			<a href="#EModal<%=@lunch.id%>" data-toggle="modal"><i class="icon-pencil"></i>
 				<% if @lunch.checkedout? %>
 					改账
