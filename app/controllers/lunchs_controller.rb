@@ -17,6 +17,8 @@ class LunchsController < ApplicationController
 		Time.now.beginning_of_week
 		Time.now.end_of_week
 		
+		@gamblegames = Gamblegame.currentgambles
+		
 		@fangroups = current_user.fangroups
 		@attrelationship = Attrelationship.new
 		@lunches = Array.new

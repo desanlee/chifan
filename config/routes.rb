@@ -1,5 +1,11 @@
 Chifan::Application.routes.draw do
 
+  resources :bets
+
+
+  resources :gamblegames
+
+
   resources :comments
 
 

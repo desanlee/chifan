@@ -11,11 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140419130614) do
+ActiveRecord::Schema.define(:version => 20140604152400) do
 
   create_table "attrelationships", :force => true do |t|
     t.integer  "lunch_id"
     t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "bets", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "gamble_id"
+    t.integer  "selection"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -38,6 +46,15 @@ ActiveRecord::Schema.define(:version => 20140419130614) do
   create_table "followrelationships", :force => true do |t|
     t.integer  "user_id"
     t.string   "fangroup_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "gamblegames", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "description"
+    t.string   "options"
+    t.integer  "result"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

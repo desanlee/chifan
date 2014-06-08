@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   has_many :fangroups, through: :followrelationships, source: :fangroup
   
   has_many :incharges, class_name: "Incharge", dependent: :destroy
+	
+	has_many :bets
   
   def name
 		if self.nickname == nil or self.nickname == ""

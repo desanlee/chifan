@@ -6,8 +6,7 @@
 			<h3><%= @lunch.fangroup.nickname if @lunch.fangroup != nil %></h3><br>
 			饭局日期：<%= @lunch.created_at.strftime('%m-%d-星期%w') %><br>
 			报名人数：<%= @lunch.participants.count %> 人<br>
-			值班团长：<%= @lunch.fangroup.user.name %>
-			<hr>
+			值班团长：<%= @lunch.fangroup.user.name %><br>
 			<% if @lunch.checkedout? %>
 				结账花费：<%= @lunch.expense %>元
 				<% if @lunch.expense != nil and @lunch.participants.count != 0 %>
@@ -59,13 +58,13 @@
 					</div>
 				<% end %>
 			<% else %>
-				<center><h4><br>无人报名！<br></h4></center>
+				<center><h4><br>目前无人报名！</h4></center>
 			<% end %>
 		</div>
-		<div class="span7">
 		
-		<br><br><hr><br>
-		<ul >
+		<div class="span7">
+		<br>
+		<ul>
 			<% @lunch.comments.each do |c| %>
 			<li>
 				<label class="label"><%= c.user.name%></label>: <%= c.content %> 
