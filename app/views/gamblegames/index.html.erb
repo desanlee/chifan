@@ -1,0 +1,29 @@
+<h1>Listing gamblegames</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Description</th>
+    <th>Options</th>
+    <th>Result</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @gamblegames.each do |gamblegame| %>
+  <tr>
+    <td><%= gamblegame.user_id %></td>
+    <td><%= gamblegame.description %></td>
+    <td><%= gamblegame.options %></td>
+    <td><%= gamblegame.result %></td>
+    <td><%= link_to 'Show', gamblegame %></td>
+    <td><%= link_to 'Edit', edit_gamblegame_path(gamblegame) %></td>
+    <td><%= link_to 'Destroy', gamblegame, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Gamblegame', new_gamblegame_path %>

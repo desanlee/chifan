@@ -1,0 +1,55 @@
+﻿<div class="span8 offset1">
+<h2>2014 World Cup Gamble Game（周一周二测试）</h2><br>
+<table class="table">
+	<% @gamblegames.each do |gg| %>
+	<% if gg.usernotinvolved? current_user then %>
+		<tr>
+			<td><%= gg.description%></td><td> </td>
+			<% i = 0 %>
+			<% gg.optionarray.each do |oa| %>
+				<% i = i + 1 %>
+				<td>
+					<%= link_to oa, 
+						{controller: :bets,
+						user_id: current_user.id, 
+						gamble_id: gg.id,
+						selection: i},
+						html_options={:method => "post", class: "btn btn-primary", 
+						data: { confirm: '一场比赛只能下注一次，买定离手不能反悔！确定花费"1饭币"下注？' }}
+					%>
+					<%= gg.usercount i%>人下注
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+	<% end %>
+</table>
+
+	<% if current_user.bets.count > 0 then %>
+		<h2><br>My Gamblings</h2><br>
+		<table class="table">
+			<% current_user.bets.each do |b| %>
+				<tr>
+					<td><%= b.gamble.description %></td>
+					<td>我押注在：<%= b.gamble.optionarray[b.selection - 1] %></td>
+					<td>
+						<% if b.gamble.result == nil then %>
+							比赛未结束，我可能赢到“<%= b.maywinprice %>饭币”
+						<% else %>
+							比赛结束，<%= b.gamble.optionarray[b.gamble.result - 1] %>
+							<% if b.gamble.result != b.selection %>
+								<% if b.gamble.haswinner? %>
+								，我输掉了“1饭币”
+								<% else %>
+								，没有人猜对
+								<% end %>
+							<% else %>
+								，我赢得“<%= b.winprice %>饭币”
+							<% end %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</table>
+	<% end %>
+</div>
